@@ -14,13 +14,13 @@ namespace DB
         }
  
         public IEnumerable<Department> GetAll()
-        {
-            return _context.Departments.ToList();
+        {            
+            return _context.Departments;
         }
  
         public Department Get(int id)
         {
-            return _context.Departments.First(t => t.Id == id);
+            return _context.Departments.FirstOrDefault(t => t.Id == id);
         }
  
         public int Insert(Department department)

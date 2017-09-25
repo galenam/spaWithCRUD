@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Interfaces;
 using Models;
 
-// todo : добавить тесты
 namespace code.Controllers
 {
     [Route("api/[controller]")]
