@@ -1,13 +1,13 @@
 using System.Collections.Generic;
-using Models;
+using code.Model;
 
 namespace Interfaces{
 	public interface IDepartmentRepository
 	{
 		IEnumerable<Department> GetAll();
-		Department Get(int id);
+		Department Get(string title);
 		int Insert(Department department);
-		int Update(int id, Department department);
-		int Delete(int id);
+		//int Update(int id, Department department);
+		int Delete(string title);
 	}
 }

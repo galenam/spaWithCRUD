@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Interfaces;
-using Models;
+using code.Model;
 
 namespace code.Controllers
 {
@@ -26,15 +26,16 @@ namespace code.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public Department Get(int id)
-        {
-            return _departmentRepository.Get(id);
+        public Department Get(string title)
+        {            
+            return !string.IsNullOrEmpty(title) ? _departmentRepository.Get(title) : null;
         }
 
         // POST api/values
         [HttpPost]
         public bool Post([FromBody]Department department)
         {
+            if (!ModelState.IsValid){return false;}
             return _departmentRepository.Insert(department) > 0;
         }
 
@@ -42,14 +43,18 @@ namespace code.Controllers
         [HttpPut("{id}")]
         public bool Put(int id, [FromBody]Department department)
         {
+            /*
+            if (!ModelState.IsValid){return false;}
             return _departmentRepository.Update(id, department)>0;
+            */
+            return false;
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public bool Delete(int id)
+        // DELETE api/values/it
+        [HttpDelete("{title}")]
+        public bool Delete(string title)
         {
-            return _departmentRepository.Delete(id)>0;
+            return _departmentRepository.Delete(title)>0;
         }
     }
 }

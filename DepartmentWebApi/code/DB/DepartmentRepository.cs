@@ -1,5 +1,5 @@
 using Interfaces;
-using Models;
+using code.Model;
 using System.Collections.Generic;
 using System.Linq;
 namespace DB
@@ -18,9 +18,9 @@ namespace DB
             return _context.Departments;
         }
  
-        public Department Get(int id)
+        public Department Get(string title)
         {
-            return _context.Departments.FirstOrDefault(t => t.Id == id);
+            return _context.Departments.FirstOrDefault(t => t.Title == title);
         }
  
         public int Insert(Department department)
@@ -29,15 +29,15 @@ namespace DB
             return _context.SaveChanges();
         }
  
-        public int Update(int id, Department department)
+ /*       public int Update(int id, Department department)
         {
             _context.Departments.Update(department);
             return _context.SaveChanges();
         }
- 
-        public int Delete(int id)
+ */
+        public int Delete(string title)
         {
-            var entity = _context.Departments.First(t => t.Id == id);
+            var entity = _context.Departments.First(t => t.Title == title);
             _context.Departments.Remove(entity);
             return _context.SaveChanges();
         }
