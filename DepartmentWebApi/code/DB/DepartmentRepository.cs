@@ -18,9 +18,9 @@ namespace DB
             return _context.Departments;
         }
  
-        public Department Get(string title)
+        public Department Get(int id)
         {
-            return _context.Departments.FirstOrDefault(t => t.Title == title);
+            return _context.Departments.FirstOrDefault(t => t.Id == id);
         }
  
         public int Insert(Department department)
@@ -29,15 +29,15 @@ namespace DB
             return _context.SaveChanges();
         }
  
- /*       public int Update(int id, Department department)
-        {
+        public int Update(Department department)
+        {            
             _context.Departments.Update(department);
             return _context.SaveChanges();
         }
- */
-        public int Delete(string title)
+ 
+        public int Delete(int id)
         {
-            var entity = _context.Departments.First(t => t.Title == title);
+            var entity = _context.Departments.First(t => t.Id == id);
             _context.Departments.Remove(entity);
             return _context.SaveChanges();
         }

@@ -5,9 +5,9 @@ namespace Interfaces{
 	public interface IDepartmentRepository
 	{
 		IEnumerable<Department> GetAll();
-		Department Get(string title);
+		Department Get(int id);
 		int Insert(Department department);
-		//int Update(int id, Department department);
-		int Delete(string title);
+		int Update(Department department);
+		int Delete(int id);
 	}
 }

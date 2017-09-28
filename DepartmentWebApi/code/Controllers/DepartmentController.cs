@@ -26,9 +26,9 @@ namespace code.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public Department Get(string title)
+        public Department Get(int id)
         {            
-            return !string.IsNullOrEmpty(title) ? _departmentRepository.Get(title) : null;
+            return id> 0 ? _departmentRepository.Get(id) : null;
         }
 
         // POST api/values
@@ -41,20 +41,17 @@ namespace code.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public bool Put(int id, [FromBody]Department department)
-        {
-            /*
+        public bool Put([FromBody]Department department)
+        {            
             if (!ModelState.IsValid){return false;}
-            return _departmentRepository.Update(id, department)>0;
-            */
-            return false;
+            return _departmentRepository.Update(department)>0;   
         }
 
-        // DELETE api/values/it
-        [HttpDelete("{title}")]
-        public bool Delete(string title)
+        // DELETE api/values/5
+        [HttpDelete("{id}")]
+        public bool Delete(int id)
         {
-            return _departmentRepository.Delete(title)>0;
+            return _departmentRepository.Delete(id)>0;
         }
     }
 }
