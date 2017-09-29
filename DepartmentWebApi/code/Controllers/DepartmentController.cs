@@ -19,16 +19,18 @@ namespace code.Controllers
 
         // GET api/values
         [HttpGet]
-        public IEnumerable<Department> Get()
+        public IActionResult Get()
         {
-            return _departmentRepository.GetAll();            
+            return Ok(_departmentRepository.GetAll());            
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public Department Get(int id)
-        {            
-            return id> 0 ? _departmentRepository.Get(id) : null;
+        public IActionResult Get(int id)
+        {      
+            var department = id> 0 ? _departmentRepository.Get(id) : null;
+            if (department == null){ return NotFound();}  
+            return Ok(department);
         }
 
         // POST api/values
@@ -41,10 +43,15 @@ namespace code.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public bool Put([FromBody]Department department)
+        public IActionResult Put(long id, [FromBody]Department department)
         {            
-            if (!ModelState.IsValid){return false;}
-            return _departmentRepository.Update(department)>0;   
+            if (!ModelState.IsValid){return BadRequest();}
+            if (id != department.Id){return BadRequest();}
+
+            var departmentForUpdate = _departmentRepository.Get(id);
+            departmentForUpdate.Title = department.Title;            
+            var result = _departmentRepository.Update(departmentForUpdate)>0;
+            return result ? Ok() : BadRequest();   
         }
 
         // DELETE api/values/5

@@ -17,8 +17,7 @@ namespace code
 {
     public class Startup
     {
-        // command : dotnet ef dbcontext scaffold -c DepartmentDBContext1 -o Model1 "Data Source=D:\\My\\dev\\SPA\\db\\db2.db;" Microsoft.EntityFrameworkCore.
-//Sqlite --force
+        //dotnet ef dbcontext scaffold -c DepartmentDBContext -o Model "Data Source=D:\\My\\dev\\SPA\\db\\db2.db;" Microsoft.EntityFrameworkCore.Sqlite --force
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;

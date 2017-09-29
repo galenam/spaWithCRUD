@@ -9,12 +9,16 @@ namespace code.Model
 
         public DepartmentDBContext(DbContextOptions options) : base(options){}
         public virtual DbSet<Department> Departments { get; set; }
-// добавить unique constraint на поле title
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Department>(entity =>
             {
                 entity.ToTable("department");
+
+                entity.HasIndex(e => e.Title)
+                    .HasName("department_title_unique")
+                    .IsUnique();
 
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
