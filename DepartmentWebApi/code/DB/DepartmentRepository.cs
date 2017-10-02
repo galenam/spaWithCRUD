@@ -3,6 +3,8 @@ using code.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DB
 {
@@ -15,10 +17,10 @@ namespace DB
         {
             _context = context;        
         }
- 
-        public IEnumerable<Department> GetAll()
+
+        public async Task<List<Department>> GetAllAsync()
         {            
-            return _context.Departments;
+            return await _context.Departments.ToListAsync();
         }
  
         public Department Get(long id)

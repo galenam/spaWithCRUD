@@ -19,9 +19,9 @@ namespace code.Controllers
 
         // GET api/values
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(_departmentRepository.GetAll());            
+            return Ok(await _departmentRepository.GetAllAsync());            
         }
 
         // GET api/values/5
@@ -51,7 +51,8 @@ namespace code.Controllers
             var departmentForUpdate = _departmentRepository.Get(id);
             departmentForUpdate.Title = department.Title;            
             var result = _departmentRepository.Update(departmentForUpdate)>0;
-            return result ? Ok() : BadRequest();   
+            if (result) {return Ok();}
+            return BadRequest();   
         }
 
         // DELETE api/values/5
