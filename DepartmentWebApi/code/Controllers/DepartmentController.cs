@@ -18,19 +18,22 @@ namespace code.Controllers
         }
 
         // GET api/values
-        [HttpGet]
+        [HttpGet]        
         public async Task<IActionResult> Get()
         {
-            return Ok(await _departmentRepository.GetAllAsync());            
+            return new ObjectResult(await _departmentRepository.GetAllAsync());            
         }
+
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(long id)
         {      
-            var department = id> 0 ? _departmentRepository.Get(id) : null;
-            if (department == null){ return NotFound();}  
-            return Ok(department);
+            if (id <=0) {return NotFound(id);}
+            var departmentTask = await  _departmentRepository.GetAsync(id);
+    
+            if (departmentTask == null){ return NotFound(id);}  
+            return new ObjectResult(departmentTask);            
         }
 
         // POST api/values

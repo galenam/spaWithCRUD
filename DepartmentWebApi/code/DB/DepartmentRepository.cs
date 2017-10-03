@@ -23,9 +23,9 @@ namespace DB
             return await _context.Departments.ToListAsync();
         }
  
-        public Department Get(long id)
+        public async Task<Department> GetAsync(long id)
         {
-            return _context.Departments.FirstOrDefault(t => t.Id == id);
+            return await _context.Departments.FirstOrDefaultAsync(t => t.Id == id);
         }
  
         public int Insert(Department department)
