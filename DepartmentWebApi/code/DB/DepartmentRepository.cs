@@ -28,10 +28,11 @@ namespace DB
             return await _context.Departments.FirstOrDefaultAsync(t => t.Id == id);
         }
  
-        public int Insert(Department department)
+        public async Task<long> Insert(Department department)
         {
             _context.Departments.Add(department);
-            return _context.SaveChanges();
+            await _context.SaveChangesAsync();
+            return department.Id;
         }
  
  // todo : return error description

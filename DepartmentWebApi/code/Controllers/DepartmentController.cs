@@ -8,6 +8,8 @@ using code.Model;
 
 namespace code.Controllers
 {
+    // todo : сделать внятные описания ошибок. 
+    // todo: Обработать exception при работе с БД
     [Route("api/[controller]")]
     public class DepartmentController : Controller
     {
@@ -38,10 +40,12 @@ namespace code.Controllers
 
         // POST api/values
         [HttpPost]
-        public bool Post([FromBody]Department department)
+        public async Task<IActionResult> Post([FromBody]Department department)
         {
-            if (!ModelState.IsValid){return false;}
-            return _departmentRepository.Insert(department) > 0;
+            if (!ModelState.IsValid){return BadRequest();}
+            var reslut = await _departmentRepository.Insert(department);
+            if (reslut>0) return new ObjectResult(reslut);
+            return BadRequest();
         }
 
         // PUT api/values/5
