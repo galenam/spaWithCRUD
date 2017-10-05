@@ -8,8 +8,8 @@ namespace Interfaces{
 	{
 		Task<List<Department>> GetAllAsync();
 		Task<Department> GetAsync(long id);
-		Task<int> Insert(Department department);
-		int Update(Department department);
-		int Delete(long id);
+		Task<long> InsertAsync(Department department);
+		Task<bool> UpdateAsync(Department department);
+		Task<bool> DeleteAsync(long id);
 	}
 }

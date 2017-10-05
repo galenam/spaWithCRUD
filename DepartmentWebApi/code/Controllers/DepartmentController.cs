@@ -43,30 +43,30 @@ namespace code.Controllers
         public async Task<IActionResult> Post([FromBody]Department department)
         {
             if (!ModelState.IsValid){return BadRequest();}
-            var reslut = await _departmentRepository.Insert(department);
+            var reslut = await _departmentRepository.InsertAsync(department);
             if (reslut>0) return new ObjectResult(reslut);
             return BadRequest();
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public IActionResult Put(long id, [FromBody]Department department)
+        public async Task<IActionResult> Put(long id, [FromBody]Department department)
         {            
             if (!ModelState.IsValid){return BadRequest();}
             if (id != department.Id){return BadRequest();}
 
-            var departmentForUpdate = _departmentRepository.Get(id);
+            var departmentForUpdate = await _departmentRepository.GetAsync(id);
             departmentForUpdate.Title = department.Title;            
-            var result = _departmentRepository.Update(departmentForUpdate)>0;
+            var result = await _departmentRepository.UpdateAsync(departmentForUpdate);
             if (result) {return Ok();}
             return BadRequest();   
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public bool Delete(int id)
+        public async Task<bool> Delete(long id)
         {
-            return _departmentRepository.Delete(id)>0;
+            return await _departmentRepository.DeleteAsync(id);
         }
     }
 }

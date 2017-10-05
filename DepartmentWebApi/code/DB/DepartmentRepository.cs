@@ -28,7 +28,7 @@ namespace DB
             return await _context.Departments.FirstOrDefaultAsync(t => t.Id == id);
         }
  
-        public async Task<long> Insert(Department department)
+        public async Task<long> InsertAsync(Department department)
         {
             _context.Departments.Add(department);
             await _context.SaveChangesAsync();
@@ -36,29 +36,29 @@ namespace DB
         }
  
  // todo : return error description
-        public int Update(Department department)
+        public async Task<bool> UpdateAsync(Department department)
         {            
-            if (department == null) {return -1;}
+            if (department == null) {return await Task.FromResult(false);}
             if (_context.Departments.FirstOrDefault(d => d.Title == department.Title) == null )
             {
-                return -1;
+                return await  Task.FromResult(false);
             }
             try
             {
-            _context.Departments.Update(department);
-            return _context.SaveChanges();
+                _context.Departments.Update(department);
+                return await _context.SaveChangesAsync()>0;
             }
             catch(Exception)
             {   
-                return -1;
+                return await Task.FromResult(false);
             }
         }
  
-        public int Delete(long id)
+        public async Task<bool> DeleteAsync(long id)
         {
             var entity = _context.Departments.First(t => t.Id == id);
             _context.Departments.Remove(entity);
-            return _context.SaveChanges();
+            return await _context.SaveChangesAsync()>0;
         }
 	}
 }
