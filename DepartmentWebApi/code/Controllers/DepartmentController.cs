@@ -10,6 +10,7 @@ namespace code.Controllers
 {
     // todo : сделать внятные описания ошибок. 
     // todo: Обработать exception при работе с БД
+//    https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging?tabs=aspnetcore2x
     [Route("api/[controller]")]
     public class DepartmentController : Controller
     {
