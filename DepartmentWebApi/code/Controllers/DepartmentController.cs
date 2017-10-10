@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Interfaces;
 using code.Model;
+using Microsoft.Extensions.Logging;
 
 namespace code.Controllers
 {
@@ -15,9 +16,11 @@ namespace code.Controllers
     public class DepartmentController : Controller
     {
         private IDepartmentRepository _departmentRepository;
-        public DepartmentController(IDepartmentRepository dr)
+        private readonly ILogger _logger;
+        public DepartmentController(IDepartmentRepository dr, ILogger<DepartmentController> logger)
         {
             _departmentRepository = dr;
+            _logger = logger;
         }
 
         // GET api/values

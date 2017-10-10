@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using code.Model;
 using DB;
 using Interfaces;
+using Serilog;
 
 namespace code
 {
@@ -21,6 +22,15 @@ namespace code
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Fatal()
+                .WriteTo
+                .RollingFile(
+                    Path.Combine(Directory.GetCurrentDirectory()) + $"\\logs\\web-{DateTime.Now}.log"
+                    , fileSizeLimitBytes: 10000000
+                    , outputTemplate: "{Message}" + Environment.NewLine)
+                .CreateLogger();
         }
 
         public IConfiguration Configuration { get; }
@@ -45,6 +55,12 @@ namespace code
                 app.UseDeveloperExceptionPage();
             }
 
+            loggerFactory.AddSerilog();
+            app.Use(async (context, next) =>
+            {
+                context.Request.EnableRewind();
+                await next();
+            });
             app.UseMvc();
         }
     }
