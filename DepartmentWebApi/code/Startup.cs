@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,13 +23,11 @@ namespace code
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Fatal()
-                .WriteTo
-                .RollingFile(
-                    Path.Combine(Directory.GetCurrentDirectory()) + $"\\logs\\web-{DateTime.Now}.log"
-                    , fileSizeLimitBytes: 10000000
+               .MinimumLevel.Fatal()
+                .WriteTo.File(
+                    Path.Combine(Directory.GetCurrentDirectory()) + $"\\logs\\log.txt"
+                    , fileSizeLimitBytes: 10240
                     , outputTemplate: "{Message}" + Environment.NewLine)
                 .CreateLogger();
         }
@@ -48,7 +47,7 @@ namespace code
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -56,11 +55,7 @@ namespace code
             }
 
             loggerFactory.AddSerilog();
-            app.Use(async (context, next) =>
-            {
-                context.Request.EnableRewind();
-                await next();
-            });
+
             app.UseMvc();
         }
     }
