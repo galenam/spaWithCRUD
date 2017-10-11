@@ -10,16 +10,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
-using code.Model;
-using DB;
-using Interfaces;
+using DepartmentWebApi.code.Model;
+using DepartmentWebApi.code.DB;
+using DepartmentWebApi.code.Interfaces;
 using Serilog;
 
 namespace code
 {
     public class Startup
     {
-        //dotnet ef dbcontext scaffold -c DepartmentDBContext -o Model "Data Source=D:\\My\\dev\\SPA\\db\\db2.db;" Microsoft.EntityFrameworkCore.Sqlite --force
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;

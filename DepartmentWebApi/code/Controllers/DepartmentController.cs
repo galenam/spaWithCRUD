@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Interfaces;
-using code.Model;
+using DepartmentWebApi.code.Interfaces;
+using DepartmentWebApi.code.Model;
 using Microsoft.Extensions.Logging;
 
-namespace code.Controllers
+namespace DepartmentWebApi.code.Controllers
 {
     // todo : сделать внятные описания ошибок. 
-    // todo: Обработать exception при работе с БД
-//    https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging?tabs=aspnetcore2x
     [Route("api/[controller]")]
     public class DepartmentController : Controller
     {

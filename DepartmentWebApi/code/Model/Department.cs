@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace code.Model
+namespace  DepartmentWebApi.code.Model
 {
     public partial class Department
     {

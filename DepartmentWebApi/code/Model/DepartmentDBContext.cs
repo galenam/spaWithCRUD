@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace code.Model
+namespace  DepartmentWebApi.code.Model
 {
     public partial class DepartmentDBContext : DbContext
     {

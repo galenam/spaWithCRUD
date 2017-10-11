@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using code.Model;
+using DepartmentWebApi.code.Model;
 using System.Threading.Tasks;
 using System;
 
-namespace Interfaces{
+namespace DepartmentWebApi.code.Interfaces{
 	public interface IDepartmentRepository
 	{
 		Task<List<Department>> GetAllAsync();
