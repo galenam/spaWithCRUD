@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using DepartmentWebApi.code.Interfaces;
 using DepartmentWebApi.code.Model;
 using Microsoft.Extensions.Logging;
+using DepartmentWebApi.code.Constants;
 
 namespace DepartmentWebApi.code.Controllers
 {
-    // todo : сделать внятные описания ошибок. 
     [Route("api/[controller]")]
     public class DepartmentController : Controller
     {
@@ -33,10 +33,16 @@ namespace DepartmentWebApi.code.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(long id)
         {      
-            if (id <=0) {return NotFound(id);}
+            if (id <=0) {
+                _logger.LogWarning(LoggingEvents.DepartmentWebApiGetIncorrectId, $"HttpGet with bad {id}");
+                return NotFound(id);
+            }
             var departmentTask = await  _departmentRepository.GetAsync(id);
     
-            if (departmentTask == null){ return NotFound(id);}  
+            if (departmentTask == null){ 
+                _logger.LogError(LoggingEvents.DepartmentWebApiGetNoSuchIdInDB, $"HttpGet no such department id= {id}");
+                return NotFound(id);
+            }  
             return new ObjectResult(departmentTask);            
         }
 
@@ -44,9 +50,11 @@ namespace DepartmentWebApi.code.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Department department)
         {
-            if (!ModelState.IsValid){return BadRequest();}
+            if (!ModelState.IsValid){
+                return BadRequest();
+            }
             var reslut = await _departmentRepository.InsertAsync(department);
-            if (reslut>0) return new ObjectResult(reslut);
+            if (reslut>0) {return new ObjectResult(reslut);}            
             return BadRequest();
         }
 
@@ -55,11 +63,11 @@ namespace DepartmentWebApi.code.Controllers
         public async Task<IActionResult> Put(long id, [FromBody]Department department)
         {            
             if (!ModelState.IsValid){return BadRequest();}
-            if (id != department.Id){return BadRequest();}
-
-            var departmentForUpdate = await _departmentRepository.GetAsync(id);
-            departmentForUpdate.Title = department.Title;            
-            var result = await _departmentRepository.UpdateAsync(departmentForUpdate);
+            if (id != department.Id){
+                _logger.LogError(LoggingEvents.DepartmentWebApiGetIncorrectId, $"HttpPut error id= {id}, department.Id={department.Id} ");                
+                return BadRequest();
+            }                     
+            var result = await _departmentRepository.UpdateAsync(department);
             if (result) {return Ok();}
             return BadRequest();   
         }

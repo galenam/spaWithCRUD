@@ -7,5 +7,11 @@ namespace DepartmentWebApi.code.Constants
 		public const int UpdateDBError = 1020;
 		public const int DeleteDBError = 1030;
 		public const int DepartmentWithIdNotExists = 1040;
+		public const int DepartmentWebApiGetIncorrectId = 1050;
+		public const int DepartmentWebApiGetNoSuchIdInDB = 1060;
+		public const int DepartmentWebApiUpdateIdNotCongruented = 1070;
+		public const int EmtptyDepartment = 1080;
+		public const int NoSuchIdInDBDepartment = 1090;
+		
 	}
 }

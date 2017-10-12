@@ -23,7 +23,7 @@ namespace code
         {
             Configuration = configuration;
             Log.Logger = new LoggerConfiguration()
-               .MinimumLevel.Fatal()
+               .MinimumLevel.Warning()
                 .WriteTo.File(
                     Path.Combine(Directory.GetCurrentDirectory()) + $"\\logs\\log.txt"
                     , fileSizeLimitBytes: 10240
@@ -38,11 +38,11 @@ namespace code
         {
             var connection = Configuration["ConnectionString:SqliteDB"];
 
-        services.AddDbContext<DepartmentDBContext>(options =>
-        options.UseSqlite(connection));
-     
-        services.AddMvc();
-        services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddDbContext<DepartmentDBContext>(options =>
+            options.UseSqlite(connection));
+        
+            services.AddMvc();
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

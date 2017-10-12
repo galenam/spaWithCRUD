@@ -13,9 +13,9 @@ namespace DepartmentWebApi.code.DB
 	public class DepartmentRepository : IDepartmentRepository
 	{
 		private readonly DepartmentDBContext _context;
-        private readonly  ILogger _logger;
+        private readonly  ILogger<DepartmentRepository> _logger;
   
-        public DepartmentRepository(DepartmentDBContext context, ILogger logger)
+        public DepartmentRepository(DepartmentDBContext context, ILogger<DepartmentRepository> logger)
         {
             _context = context;      
             _logger = logger;  
@@ -47,8 +47,18 @@ namespace DepartmentWebApi.code.DB
 
         public async Task<bool> UpdateAsync(Department department)
         {            
-            if (department == null) {return await Task.FromResult(false);}
-            var existedDepatmentInSuchDB = _context.Departments.FirstOrDefault(d => d.Title == department.Title);
+            if (department == null) {
+                _logger.LogError(LoggingEvents.EmtptyDepartment, $"Update error in db department title={department.Title}, id={department.Id}");                
+                return await Task.FromResult(false);
+            }
+            var departmentForUpdate = await GetAsync(department.Id);
+            if (departmentForUpdate == null)
+            {
+                _logger.LogError(LoggingEvents.NoSuchIdInDBDepartment, $"Update error in db department no such id: id={department.Id}, title={department.Title}");                
+                return await Task.FromResult(false);
+            }
+            departmentForUpdate.Title = department.Title;   
+            var existedDepatmentInSuchDB = _context.Departments.FirstOrDefault(d => d.Title == departmentForUpdate.Title);
             if ( existedDepatmentInSuchDB!= null )
             {
                 _logger.LogInformation(LoggingEvents.TitleExistsInDB, $"Such title exists in DB. Title={existedDepatmentInSuchDB.Title}, existed id={existedDepatmentInSuchDB.Id}, updated department id={department.Id}");
@@ -56,7 +66,7 @@ namespace DepartmentWebApi.code.DB
             }
             try
             {
-                _context.Departments.Update(department);
+                _context.Departments.Update(departmentForUpdate);
                 return await _context.SaveChangesAsync()>0;
             }
             catch(Exception ex)
