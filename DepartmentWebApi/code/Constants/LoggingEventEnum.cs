@@ -12,6 +12,8 @@ namespace DepartmentWebApi.code.Constants
 		public const int DepartmentWebApiUpdateIdNotCongruented = 1070;
 		public const int EmtptyDepartment = 1080;
 		public const int NoSuchIdInDBDepartment = 1090;
-		
+
+		public const int ErrorDbConnection = 1100;
+		public const int ErrorGettingId = 1110;		
 	}
 }

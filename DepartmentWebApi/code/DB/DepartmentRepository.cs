@@ -23,12 +23,28 @@ namespace DepartmentWebApi.code.DB
 
         public async Task<List<Department>> GetAllAsync()
         {            
-            return await _context.Departments.ToListAsync();
+            try
+            {
+                return await _context.Departments.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.ErrorDbConnection, ex, $"Error db connection");
+                return null;                
+            }
         }
  
         public async Task<Department> GetAsync(long id)
         {
-            return await _context.Departments.FirstOrDefaultAsync(t => t.Id == id);
+            try
+            {
+                return await _context.Departments.FirstOrDefaultAsync(t => t.Id == id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.ErrorGettingId, ex, $"Error getting {id}");                
+                return null;
+            }
         }
  
         public async Task<long> InsertAsync(Department department)
