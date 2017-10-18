@@ -13,7 +13,6 @@ namespace DepartmentWebApi.Tests
 {
     public class TestDepartmentController
     {
-        //https://metanit.com/sharp/aspnet5/22.4.php
         [Fact]
         public async void TestGetAll()
         {
@@ -22,17 +21,27 @@ namespace DepartmentWebApi.Tests
             mockDepartmentRepository.Setup(repo=> repo.GetAllAsync()).Returns(Task.Run(()=>GetFakeDepartment()));
             var dController = new DepartmentController(mockDepartmentRepository.Object, mockLogger.Object);
             var result = await dController.Get();
-            var vResult = result as ViewResult;
-            /*
-             // Act
-            var result = await controller.Index();
 
-            // Assert
-            var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<IEnumerable<StormSessionViewModel>>(
-                viewResult.ViewData.Model);
-            Assert.Equal(2, model.Count());
-             */
+            var objectResult = Assert.IsType<ObjectResult>(result);
+            var departments = Assert.IsType<List<Department>>(objectResult.Value);
+            Assert.Equal(departments.Count, 3);
+        }
+
+        [Theory]
+        [InlineData(-1, typeof(NotFoundResult))]
+        [InlineData(1, typeof(ObjectResult))]
+        [InlineData(4, typeof(NotFoundResult))]
+        public async void TestGetById(long id, Type t)
+        {
+            var mockDepartmentRepository = new Mock<IDepartmentRepository>();
+            var mockLogger = new Mock<ILogger<DepartmentController>>();
+            mockDepartmentRepository.Setup(repo=> repo.GetAsync(It.IsAny(int))).Returns(Task.Run(()=>GetFakeDepartment()));
+            var dController = new DepartmentController(mockDepartmentRepository.Object, mockLogger.Object);
+            var result = await dController.Get();
+
+            var objectResult = Assert.IsType<ObjectResult>(result);
+            var departments = Assert.IsType<List<Department>>(objectResult.Value);
+            Assert.Equal(departments.Count, 3);
         }
 
         private async Task<List<Department>> GetFakeDepartment()
@@ -41,7 +50,7 @@ namespace DepartmentWebApi.Tests
                 return new List<Department>{
                     new Department{Id=0, Title="It"},
                     new Department{Id=1, Title="Marketing"},
-                    new Department{Id=0, Title="Accountant Department"}
+                    new Department{Id=2, Title="Accountant Department"}
                 };
             });
         }
