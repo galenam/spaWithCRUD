@@ -30,36 +30,49 @@ namespace DepartmentWebApi.Tests
         }
 
         [Theory]
-        [InlineData(-1, typeof(NotFoundResult))]
-        [InlineData(1, typeof(ObjectResult))]
-        [InlineData(4, typeof(NotFoundResult))]
-        public async void TestGetById(long id, Type t)
+        [InlineData(-1, typeof(NotFoundObjectResult))]
+        [InlineData(1, typeof(ObjectResult), "Marketing")]
+        [InlineData(4, typeof(NotFoundObjectResult))]
+        public async void TestGetById(long id, Type t, string title=null)
         {
             var mockDepartmentRepository = new Mock<IDepartmentRepository>();
-            var mockLogger = new Mock<ILogger<DepartmentController>>();         
-// можно ли переписать без TasdkRun а с await GetFakeDepartment
-            mockDepartmentRepository.SetupSequence(repo=> repo.GetAsync(id)).Returns(Task.Run(()=>{
-                return Task.Run(() =>{
-                    return new Department{Id=0, Title="It"};});
-                }))
-                .Returns(Task.Run(()=>{
-                return Task.Run(() =>{
-                    return new Department{Id=1, Title="Marketing"};});
-                }))
-                .Returns(Task.Run(()=>{
-                return Task.Run(() =>{
-                    return new Department{Id=2, Title="Accountant Department"};});
-                }));
-                
+            var mockLogger = new Mock<ILogger<DepartmentController>>();    
+            var departments = await GetFakeDepartment();
+
+            mockDepartmentRepository.Setup(repo=> repo.GetAsync(id)).ReturnsAsync(departments.FirstOrDefault(d=>d.Id == id ));
+
             var dController = new DepartmentController(mockDepartmentRepository.Object, mockLogger.Object);
             var result = await dController.Get(id);
-            Assert.IsType(t, result.GetType());
+            Assert.IsType(t, result);
 
             if (t == typeof(ObjectResult)){
                 var objectResult = Assert.IsType<ObjectResult>(result);
                 var department = Assert.IsType<Department>(objectResult.Value);
-                Assert.Equal(department.Id, 1);
-                Assert.Equal(department.Title, "Marketing");
+                Assert.Equal(department.Id, id);
+                Assert.Equal(department.Title, title);
+            }
+        }
+
+        [Theory]
+        [InlineData(0, null, typeof(BadRequestObjectResult))]
+        [InlineData(0, "Test department", typeof(OkObjectResult))]
+        [InlineData(0, "Test department", typeof(BadRequestObjectResult))]        
+        public async void Post(int id, string title, Type t)
+        {
+            var department = new Department {Id=id, Title = title};
+            // todo : замокать метод insert т.о. , чтобы он возвращал ошибку в случае дубликатов title
+            var mockDepartmentRepository = new Mock<IDepartmentRepository>();
+            var mockLogger = new Mock<ILogger<DepartmentController>>();
+
+            var departmentController = new DepartmentController(mockDepartmentRepository.Object , mockLogger.Object);
+            var result = await departmentController.Post(department);
+            Assert.IsType(t, result);
+
+            if (t== typeof(OkObjectResult))
+            {
+                var objectResult = Assert.IsType<OkObjectResult>(result);
+                var idInserted = Assert.IsType<int>(objectResult.Value);
+                Assert.True(idInserted>0);
             }
         }
 
