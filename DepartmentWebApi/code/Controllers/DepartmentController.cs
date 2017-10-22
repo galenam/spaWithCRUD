@@ -7,6 +7,7 @@ using DepartmentWebApi.code.Interfaces;
 using DepartmentWebApi.code.Model;
 using Microsoft.Extensions.Logging;
 using DepartmentWebApi.code.Constants;
+using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentWebApi.code.Controllers
 {
@@ -78,5 +79,7 @@ namespace DepartmentWebApi.code.Controllers
         {
             return await _departmentRepository.DeleteAsync(id);
         }
+
+    
     }
 }
