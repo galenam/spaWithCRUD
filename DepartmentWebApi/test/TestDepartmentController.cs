@@ -56,18 +56,15 @@ namespace DepartmentWebApi.Tests
         }
 
         [Theory]
-        [InlineData(0, null, typeof(BadRequestObjectResult))]
-        [InlineData(0, "Test department", typeof(OkObjectResult))]
+        [InlineData(0, "Test department", typeof(ObjectResult))]
         [InlineData(0, "Test department", typeof(BadRequestObjectResult))]        
         public async void Post(int id, string title, Type t)
         {
             var department = new Department {Id=id, Title = title};            
             var mockDepartmentRepository = new Mock<IDepartmentRepository>();
             var mockLogger = new Mock<ILogger<DepartmentController>>();
-            // https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/testing - разобраться, как же валидировать
-            // modelState через , как в статье, запускать сервер, как в https://blogs.msdn.microsoft.com/youssefm/2013/01/28/writing-tests-for-an-asp-net-web-api-service/
-            // плохо, что делать с БД ? или компиляция из всего, как тут https://dotnetliberty.com/index.php/2016/01/04/how-to-unit-test-asp-net-5-mvc-6-modelstate/
-            mockDepartmentRepository.Setup(repo=>repo.InsertAsync(department)).ReturnsAsync(FakeInsert(department));
+
+            mockDepartmentRepository.Setup(repo=>repo.InsertAsync(department)).ReturnsAsync(FakeInsert(department)).Callback(()=> {_departments.Add(department);});
             var departmentController = new DepartmentController(mockDepartmentRepository.Object , mockLogger.Object);
             var result = await departmentController.Post(department);
             Assert.IsType(t, result);
@@ -80,10 +77,23 @@ namespace DepartmentWebApi.Tests
             }
         }
 
+        [Fact]
+        public async void TestValidationDepartmentModel()
+        {
+            var mockDepartmentRepository = new Mock<IDepartmentRepository>();
+            var mockLogger = new Mock<ILogger<DepartmentController>>();
+            var department = new Department();
+
+            mockDepartmentRepository.Setup(repo=>repo.InsertAsync(department)).ReturnsAsync(FakeInsert(department));
+            var departmentController = new DepartmentController(mockDepartmentRepository.Object , mockLogger.Object);
+            departmentController.ModelState.AddModelError("Title", "Required");
+            var result = await departmentController.Post(department);
+            Assert.IsType<BadRequestResult>(result);
+        }
+
         private long FakeInsert(Department department)
         {
-            if (_departments.FirstOrDefault(d=> d.Title==department.Title)!=null){ return -1;}
-            _departments.Add(department);
+            if (_departments.FirstOrDefault(d=> d.Title==department.Title)!=null){ return -1;}            
             return 1;
         }
 
