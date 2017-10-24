@@ -56,15 +56,14 @@ namespace DepartmentWebApi.Tests
         }
 
         [Theory]
-        [InlineData(0, "Test department", typeof(ObjectResult))]
-        [InlineData(0, "Test department", typeof(BadRequestObjectResult))]        
+        [InlineData(0, "Test department", typeof(ObjectResult))]     
         public async void Post(int id, string title, Type t)
         {
             var department = new Department {Id=id, Title = title};            
             var mockDepartmentRepository = new Mock<IDepartmentRepository>();
             var mockLogger = new Mock<ILogger<DepartmentController>>();
 
-            mockDepartmentRepository.Setup(repo=>repo.InsertAsync(department)).ReturnsAsync(FakeInsert(department)).Callback(()=> {_departments.Add(department);});
+            mockDepartmentRepository.Setup(repo=>repo.InsertAsync(department)).ReturnsAsync(1);
             var departmentController = new DepartmentController(mockDepartmentRepository.Object , mockLogger.Object);
             var result = await departmentController.Post(department);
             Assert.IsType(t, result);
@@ -74,6 +73,51 @@ namespace DepartmentWebApi.Tests
                 var objectResult = Assert.IsType<OkObjectResult>(result);
                 var idInserted = Assert.IsType<int>(objectResult.Value);
                 Assert.True(idInserted>0);
+            }
+        }
+
+        [Theory]
+        [InlineData(0, "Test department", 0, true, typeof(OkResult))]     
+        [InlineData(0, "Test department", 1, true, typeof(BadRequestResult))]   
+        [InlineData(0, "Test department", 0, false, typeof(BadRequestResult))]   
+        public async void Put(int id, string titleDepartment, int idDepartment, bool resultUpdate, Type t)
+        {
+            var department = new Department {Id=idDepartment, Title = titleDepartment};            
+            var mockDepartmentRepository = new Mock<IDepartmentRepository>();
+            var mockLogger = new Mock<ILogger<DepartmentController>>();
+
+            mockDepartmentRepository.Setup(repo=>repo.UpdateAsync(department)).ReturnsAsync(resultUpdate);
+            var departmentController = new DepartmentController(mockDepartmentRepository.Object , mockLogger.Object);
+            var result = await departmentController.Put(id, department);
+            Assert.IsType(t, result);
+
+            if (t== typeof(OkObjectResult))
+            {
+                var objectResult = Assert.IsType<OkObjectResult>(result);
+                var repoReturn = Assert.IsType<bool>(objectResult.Value);
+                Assert.True(repoReturn);
+            }
+        }
+
+        [Theory]
+        [InlineData(-1, true, typeof(BadRequestResult))]     
+        [InlineData(1, true, typeof(OkResult))]   
+        [InlineData(1, false, typeof(BadRequestResult))]   
+        public async void Delete(int id, bool resultUpdate, Type t)
+        {           
+            var mockDepartmentRepository = new Mock<IDepartmentRepository>();
+            var mockLogger = new Mock<ILogger<DepartmentController>>();
+
+            mockDepartmentRepository.Setup(repo=>repo.DeleteAsync(id)).ReturnsAsync(resultUpdate);
+            var departmentController = new DepartmentController(mockDepartmentRepository.Object , mockLogger.Object);
+            var result = await departmentController.Delete(id);
+            Assert.IsType(t, result);
+
+            if (t== typeof(OkObjectResult))
+            {
+                var objectResult = Assert.IsType<OkObjectResult>(result);
+                var repoReturn = Assert.IsType<bool>(objectResult.Value);
+                Assert.True(repoReturn);
             }
         }
 

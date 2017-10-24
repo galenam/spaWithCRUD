@@ -69,15 +69,18 @@ namespace DepartmentWebApi.code.Controllers
                 return BadRequest();
             }                     
             var result = await _departmentRepository.UpdateAsync(department);
-            if (result) {return Ok();}
+            if (result) {return new OkResult();}
             return BadRequest();   
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public async Task<bool> Delete(long id)
+        public async Task<IActionResult> Delete(long id)
         {
-            return await _departmentRepository.DeleteAsync(id);
+            if (id<=0) {return BadRequest();}
+            var result = await _departmentRepository.DeleteAsync(id);
+            if (result) return new OkResult();
+            return BadRequest();
         }
 
     
