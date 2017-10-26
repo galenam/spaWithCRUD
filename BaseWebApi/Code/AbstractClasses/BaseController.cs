@@ -40,7 +40,7 @@ namespace BaseWebApi.code.Controllers
             var baseTask = await  _baseRepository.GetAsync(id);
     
             if (baseTask == null){ 
-                _logger.LogError(LoggingEvents.DepartmentWebApiGetNoSuchIdInDB, $"HttpGet no such department id= {id}");
+                _logger.LogError(LoggingEvents.DepartmentWebApiGetNoSuchIdInDB, $"HttpGet no such model id= {id}");
                 return NotFound(id);
             }  
             return new ObjectResult(baseTask);            
@@ -64,7 +64,7 @@ namespace BaseWebApi.code.Controllers
         {            
             if (!ModelState.IsValid){return BadRequest();}
             if (id != model.Id){
-                _logger.LogError(LoggingEvents.DepartmentWebApiGetIncorrectId, $"HttpPut error id= {id}, department.Id={model.Id} ");                
+                _logger.LogError(LoggingEvents.DepartmentWebApiGetIncorrectId, $"HttpPut error id= {id}, model.Id={model.Id} ");                
                 return BadRequest();
             }                     
             var result = await _baseRepository.UpdateAsync(model);
