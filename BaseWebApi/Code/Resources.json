@@ -1,0 +1,19 @@
+{
+	"GetIncorrectId": {
+		"LogEventId": "10000",
+		"Text": "HttpGet with bad {id}",
+		"IsTemplate": "true"
+	},
+	"GetNoSuchIdInDB":
+	{
+		"LogEventId": "10100",
+		"Text": "HttpGet no such model id= {id}",
+		"IsTemplate": "true"
+	},
+	"GetIncorrectIdInPut":
+	{
+		"LogEventId": "10100",
+		"Text": "HttpPut error id= {id}, model.Id={model.Id}",
+		"IsTemplate": "true"		
+	}
+}

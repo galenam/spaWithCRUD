@@ -33,6 +33,7 @@ namespace BaseWebApi.code.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(long id)
         {      
+            //ControllerContext.ActionDescriptor.ControllerName
             if (id <=0) {
                 _logger.LogWarning(LoggingEvents.DepartmentWebApiGetIncorrectId, $"HttpGet with bad {id}");
                 return NotFound(id);
