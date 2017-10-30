@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using DepartmentWebApi.code.Interfaces;
 using DepartmentWebApi.code.Model;
 using Microsoft.Extensions.Logging;
-using DepartmentWebApi.code.Constants;
+using BaseWebApi.code.Controllers;
 using System.ComponentModel.DataAnnotations;
 
 namespace DepartmentWebApi.code.Controllers
 {
     [Route("api/[controller]")]
-    public class DepartmentController : Controller
+    public class DepartmentController : BaseController
     {
         private IDepartmentRepository _departmentRepository;
         private readonly ILogger _logger;
