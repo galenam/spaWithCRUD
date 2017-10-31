@@ -2,14 +2,10 @@ using System.Collections.Generic;
 using DepartmentWebApi.code.Model;
 using System.Threading.Tasks;
 using System;
+using BaseWebApi.Code.Interfaces;
 
 namespace DepartmentWebApi.code.Interfaces{
-	public interface IDepartmentRepository
+	public interface IDepartmentRepository : IBaseRepository<Department>
 	{
-		Task<List<Department>> GetAllAsync();
-		Task<Department> GetAsync(long id);
-		Task<long> InsertAsync(Department department);
-		Task<bool> UpdateAsync(Department department);
-		Task<bool> DeleteAsync(long id);
 	}
 }

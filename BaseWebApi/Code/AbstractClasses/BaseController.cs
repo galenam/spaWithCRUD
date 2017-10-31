@@ -13,8 +13,8 @@ namespace BaseWebApi.code.Controllers
     public abstract class BaseController<T> : Controller
 	where T : IModel
     {
-        private IBaseRepository<T> _baseRepository;
-        private readonly ILogger<BaseController<T>> _logger;
+        protected IBaseRepository<T> _baseRepository;
+        protected readonly ILogger<BaseController<T>> _logger;
         public BaseController(IBaseRepository<T> br, ILogger<BaseController<T>> logger)
         {
             _baseRepository = br;

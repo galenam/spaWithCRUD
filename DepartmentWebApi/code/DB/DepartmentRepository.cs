@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using DepartmentWebApi.code.Constants;
+using BaseWebApi.Code.Constants;
 
 namespace DepartmentWebApi.code.DB
 {
@@ -64,13 +64,13 @@ namespace DepartmentWebApi.code.DB
         public async Task<bool> UpdateAsync(Department department)
         {            
             if (department == null) {
-                _logger.LogError(LoggingEvents.EmtptyDepartment, $"Update error in db department title={department.Title}, id={department.Id}");                
+                _logger.LogError(LoggingEvents.EmtptyModel, $"Update error in db department title={department.Title}, id={department.Id}");                
                 return await Task.FromResult(false);
             }
             var departmentForUpdate = await GetAsync(department.Id);
             if (departmentForUpdate == null)
             {
-                _logger.LogError(LoggingEvents.NoSuchIdInDBDepartment, $"Update error in db department no such id: id={department.Id}, title={department.Title}");                
+                _logger.LogError(LoggingEvents.NoSuchIdInDB, $"Update error in db department no such id: id={department.Id}, title={department.Title}");                
                 return await Task.FromResult(false);
             }
             departmentForUpdate.Title = department.Title;   
@@ -99,7 +99,7 @@ namespace DepartmentWebApi.code.DB
                 var entity = _context.Departments.First(t => t.Id == id);
                 if (entity == null)
                 {
-                    _logger.LogInformation(LoggingEvents.DepartmentWithIdNotExists,  $"Such id not exists in DB. id={id}");                                    
+                    _logger.LogInformation(LoggingEvents.IdNotExists,  $"Such id not exists in DB. id={id}");                                    
                     return false;
                 }
                 _context.Departments.Remove(entity);
