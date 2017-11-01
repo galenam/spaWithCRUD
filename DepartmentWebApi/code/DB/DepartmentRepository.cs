@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using BaseWebApi.Code.Constants;
+using BaseWebApi.Code.Interfaces;
 
 namespace DepartmentWebApi.code.DB
 {
-	public class DepartmentRepository : IDepartmentRepository
+	public class DepartmentRepository : IBaseRepository<Department>
 	{
 		private readonly DepartmentDBContext _context;
         private readonly  ILogger<DepartmentRepository> _logger;

@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using BaseWebApi.Code.Interfaces;
 using BaseWebApi.Code.Constants;
 
-namespace BaseWebApi.code.Controllers
+namespace BaseWebApi.Code.AbstractClasses
 {
     public abstract class BaseController<T> : Controller
 	where T : IModel

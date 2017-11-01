@@ -15,7 +15,7 @@ namespace UserWebApi.code.Controllers
     [Route("api/[controller]")]
     public class UserController : BaseController<User>
     {        
-        public UserController(IUserRepository dr, ILogger<UserController> logger):
+        public UserController(IBaseRepository<User> dr, ILogger<UserController> logger):
             base(dr, logger)
         {
         }
