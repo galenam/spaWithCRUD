@@ -11,8 +11,8 @@ namespace BaseWebApi.Code.AbstractClasses
 {
 	public abstract class BaseRepository<U> : IBaseRepository<U> where U : class, IModel
 	{
-		private readonly DbContext _context;
-        private readonly  ILogger<BaseRepository<U>> _logger;
+		protected readonly DbContext _context;
+        protected readonly  ILogger<BaseRepository<U>> _logger;
   
         public BaseRepository(DbContext context, ILogger<BaseRepository<U>> logger)
         {

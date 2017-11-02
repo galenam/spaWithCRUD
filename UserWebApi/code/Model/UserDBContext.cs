@@ -16,12 +16,12 @@ namespace  UserWebApi.Code.Model
             {
                 entity.ToTable("User");
 
-                entity.HasIndex(e => e.UserName)
+                entity.HasIndex(e => e.Name)
                     .HasName("user_username_unique")
                     .IsUnique();
 
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
-                entity.Property(e => e.UserName).IsRequired();
+                entity.Property(e => e.Name).IsRequired();
             });
         }
     }

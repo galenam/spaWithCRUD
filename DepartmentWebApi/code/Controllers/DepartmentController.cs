@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DepartmentWebApi.code.Interfaces;
 using DepartmentWebApi.code.Model;
 using Microsoft.Extensions.Logging;
-using BaseWebApi.code.Controllers;
+using BaseWebApi.Code.AbstractClasses;
 using System.ComponentModel.DataAnnotations;
 using BaseWebApi.Code.Interfaces;
 

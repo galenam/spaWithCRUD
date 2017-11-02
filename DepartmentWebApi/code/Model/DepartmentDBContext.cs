@@ -16,13 +16,13 @@ namespace  DepartmentWebApi.code.Model
             {
                 entity.ToTable("department");
 
-                entity.HasIndex(e => e.Title)
+                entity.HasIndex(e => e.Name)
                     .HasName("department_title_unique")
                     .IsUnique();
 
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
-                entity.Property(e => e.Title).IsRequired();
+                entity.Property(e => e.Name).IsRequired();
             });
         }
     }

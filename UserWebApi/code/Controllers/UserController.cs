@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using BaseWebApi.Code.Interfaces;
 using UserWebApi.Code.Model;
 using Microsoft.Extensions.Logging;
-using BaseWebApi.code.Controllers;
+using BaseWebApi.Code.AbstractClasses;
 using System.ComponentModel.DataAnnotations;
-using UserWebApi.Code.Interface;
 
 namespace UserWebApi.code.Controllers
 {

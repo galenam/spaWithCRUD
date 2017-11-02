@@ -12,8 +12,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using DepartmentWebApi.code.Model;
 using DepartmentWebApi.code.DB;
-using DepartmentWebApi.code.Interfaces;
 using Serilog;
+using BaseWebApi.Code.Interfaces;
+using BaseWebApi.Code.AbstractClasses;
 
 namespace code
 {
@@ -25,7 +26,7 @@ namespace code
             Log.Logger = new LoggerConfiguration()
                .MinimumLevel.Warning()
                 .WriteTo.File(
-                    Path.Combine(Directory.GetCurrentDirectory()) + $"\\logs\\log.txt"
+                    Path.Combine(Directory.GetCurrentDirectory()) + $"\\logs\\departmentwebapi\\log.txt"
                     , fileSizeLimitBytes: 10240
                     , outputTemplate: "{Message}" + Environment.NewLine)
                 .CreateLogger();
@@ -40,9 +41,9 @@ namespace code
 
             services.AddDbContext<DepartmentDBContext>(options =>
             options.UseSqlite(connection));
-        
+            services.AddScoped<IBaseRepository<Department>, DepartmentRepository>();
+ 
             services.AddMvc();
-            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
