@@ -7,6 +7,7 @@ namespace UserWebApi.Code.Model
 	public class User : IModel
 	{
 		public long Id { get; set; }
+		[Column("IdDepartment")]
 		public int DepartmentId { get; set; }
 		[Required]
 		[Column("UserName")]
