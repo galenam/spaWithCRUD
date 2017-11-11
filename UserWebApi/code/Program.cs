@@ -10,16 +10,21 @@ using Microsoft.Extensions.Logging;
 
 namespace code
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            BuildWebHost(args).Run();
-        }
+	public class Program
+	{
+		public static void Main(string[] args)
+		{
+			var config = new ConfigurationBuilder()
+			.SetBasePath(Directory.GetCurrentDirectory())
+			.AddJsonFile("hosts.json", optional: false)
+			.Build();
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
-    }
+			var hosts = WebHost.CreateDefaultBuilder(args)
+				.UseStartup<Startup>()
+				.UseConfiguration(config)
+				.Build();
+
+			hosts.Run();
+		}
+	}
 }

@@ -7,6 +7,9 @@ using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using BaseWebApi.Code.Interfaces;
 using BaseWebApi.Code.Constants;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Microsoft.Extensions.Configuration;
 
 namespace BaseWebApi.Code.AbstractClasses
 {
@@ -15,10 +18,17 @@ namespace BaseWebApi.Code.AbstractClasses
 	{
 		protected IBaseRepository<T> _baseRepository;
 		protected readonly ILogger<BaseController<T>> _logger;
+		protected static IConfiguration _configuration;
 		public BaseController(IBaseRepository<T> br, ILogger<BaseController<T>> logger)
 		{
 			_baseRepository = br;
 			_logger = logger;
+		}
+
+		public BaseController(IBaseRepository<T> br, ILogger<BaseController<T>> logger, IConfiguration configuration)
+			: this(br, logger)
+		{
+			_configuration = configuration;
 		}
 
 		// GET api/values
@@ -86,7 +96,5 @@ namespace BaseWebApi.Code.AbstractClasses
 			if (result) return new OkResult();
 			return BadRequest();
 		}
-
-
 	}
 }

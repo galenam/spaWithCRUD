@@ -14,48 +14,60 @@ using UserWebApi.Code.Model;
 using UserWebApi.code.DB;
 using Serilog;
 using BaseWebApi.Code.Interfaces;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace code
 {
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-            Log.Logger = new LoggerConfiguration()
-               .MinimumLevel.Warning()
-                .WriteTo.File(
-                    Path.Combine(Directory.GetCurrentDirectory()) + $"\\logs\\userwebapi\\log.txt"
-                    , fileSizeLimitBytes: 10240
-                    , outputTemplate: "{Message}" + Environment.NewLine)
-                .CreateLogger();
-        }
+	public class Startup
+	{
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+			Log.Logger = new LoggerConfiguration()
+			   .MinimumLevel.Warning()
+				.WriteTo.File(
+					Path.Combine(Directory.GetCurrentDirectory()) + $"\\logs\\userwebapi\\log.txt"
+					, fileSizeLimitBytes: 10240
+					, outputTemplate: "{Message}" + Environment.NewLine)
+				.CreateLogger();
+		}
 
-        public IConfiguration Configuration { get; }
+		public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            var connection = Configuration["ConnectionString:SqliteDB"];
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			var connection = Configuration["ConnectionString:SqliteDB"];
 
-            services.AddDbContext<UserDBContext>(options =>
-            options.UseSqlite(connection));
-            services.AddScoped<IBaseRepository<User>, UserRepository>();
+			services.AddDbContext<UserDBContext>(options =>
+			options.UseSqlite(connection));
+			services.AddScoped<IBaseRepository<User>, UserRepository>();
+			services.AddSingleton<IConfiguration>(Configuration);
 
-            services.AddMvc();
-        }
+			var _client = new HttpClient() { BaseAddress = new Uri(Configuration["OuterApiWebApi"]) };
+			var media = new MediaTypeWithQualityHeaderValue("application/json");
+			if (!_client.DefaultRequestHeaders.Accept.Contains(media))
+			{
+				_client.DefaultRequestHeaders.Accept.Clear();
+				_client.DefaultRequestHeaders.Accept.Add(media);
+			}
+			services.AddSingleton<HttpClient>(_client);
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+			services.AddMvc();
+		}
 
-            loggerFactory.AddSerilog();
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+		{
+			if (env.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+			}
 
-            app.UseMvc();
-        }
-    }
+			loggerFactory.AddSerilog();
+
+			app.UseMvc();
+		}
+	}
 }
