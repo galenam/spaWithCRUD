@@ -25,7 +25,7 @@ namespace UserWebApi.Tests
 			var mockUserRepository = new Mock<IBaseRepository<User>>();
 			var mockLogger = new Mock<ILogger<UserController>>();
 			mockUserRepository.Setup(repo => repo.GetAllAsync()).Returns(Task.Run(() => GetFakeUsers()));
-			var dController = new UserController(mockUserRepository.Object, mockLogger.Object);
+			var dController = new UserController(mockUserRepository.Object, mockLogger.Object, null);
 			var result = await dController.Get();
 
 			var objectResult = Assert.IsType<ObjectResult>(result);
@@ -45,7 +45,7 @@ namespace UserWebApi.Tests
 
 			mockUserRepository.Setup(repo => repo.GetAsync(id)).ReturnsAsync(users.FirstOrDefault(d => d.Id == id));
 
-			var dController = new UserController(mockUserRepository.Object, mockLogger.Object);
+			var dController = new UserController(mockUserRepository.Object, mockLogger.Object, null);
 			var result = await dController.Get(id);
 			Assert.IsType(t, result);
 
@@ -67,7 +67,7 @@ namespace UserWebApi.Tests
 			var mockLogger = new Mock<ILogger<UserController>>();
 			Mock<FakeHttpMessageHandler> _fakeHttpMessageHandler = new Mock<FakeHttpMessageHandler> { CallBase = true };
 			var mockRest = new HttpClient(_fakeHttpMessageHandler.Object);
-			mockRest.BaseAddress =new Uri("http://localhost");
+			mockRest.BaseAddress = new Uri("http://localhost");
 			_fakeHttpMessageHandler.Setup(f => f.Send(It.IsAny<HttpRequestMessage>())).Returns(new HttpResponseMessage
 			{
 				StatusCode = HttpStatusCode.OK,
@@ -99,7 +99,7 @@ namespace UserWebApi.Tests
 
 			Mock<FakeHttpMessageHandler> _fakeHttpMessageHandler = new Mock<FakeHttpMessageHandler> { CallBase = true };
 			var mockRest = new HttpClient(_fakeHttpMessageHandler.Object);
-			mockRest.BaseAddress =new Uri("http://localhost");
+			mockRest.BaseAddress = new Uri("http://localhost");
 			_fakeHttpMessageHandler.Setup(f => f.Send(It.IsAny<HttpRequestMessage>())).Returns(new HttpResponseMessage
 			{
 				StatusCode = HttpStatusCode.OK
@@ -128,9 +128,17 @@ namespace UserWebApi.Tests
 			var mockUserRepository = new Mock<IBaseRepository<User>>();
 			var mockLogger = new Mock<ILogger<UserController>>();
 
+			Mock<FakeHttpMessageHandler> _fakeHttpMessageHandler = new Mock<FakeHttpMessageHandler> { CallBase = true };
+			var mockRest = new HttpClient(_fakeHttpMessageHandler.Object);
+			mockRest.BaseAddress = new Uri("http://localhost");
+			_fakeHttpMessageHandler.Setup(f => f.Send(It.IsAny<HttpRequestMessage>())).Returns(new HttpResponseMessage
+			{
+				StatusCode = HttpStatusCode.OK
+			});
+
 			mockUserRepository.Setup(repo => repo.DeleteAsync(id)).ReturnsAsync(resultUpdate);
-			var departmentController = new UserController(mockUserRepository.Object, mockLogger.Object);
-			var result = await departmentController.Delete(id);
+			var userController = new UserController(mockUserRepository.Object, mockLogger.Object, mockRest);
+			var result = await userController.Delete(id);
 			Assert.IsType(t, result);
 
 			if (t == typeof(OkObjectResult))
@@ -146,12 +154,12 @@ namespace UserWebApi.Tests
 		{
 			var mockUserRepository = new Mock<IBaseRepository<User>>();
 			var mockLogger = new Mock<ILogger<UserController>>();
-			var department = new User();
+			var user = new User();
 
-			mockUserRepository.Setup(repo => repo.InsertAsync(department)).ReturnsAsync(FakeInsert(department));
-			var departmentController = new UserController(mockUserRepository.Object, mockLogger.Object);
-			departmentController.ModelState.AddModelError("Name", "Required");
-			var result = await departmentController.Post(department);
+			mockUserRepository.Setup(repo => repo.InsertAsync(user)).ReturnsAsync(FakeInsert(user));
+			var userController = new UserController(mockUserRepository.Object, mockLogger.Object, null);
+			userController.ModelState.AddModelError("Name", "Required");
+			var result = await userController.Post(user);
 			Assert.IsType<BadRequestResult>(result);
 		}
 

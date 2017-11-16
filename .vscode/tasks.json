@@ -1,24 +1,28 @@
 {
-    "version": "0.1.0",
-    "command": "dotnet",
-    "isShellCommand": true,
-    "args": [],
-    "tasks": [
-        {
-            "taskName": "build",
-            "args": [
-                "${workspaceRoot}/DepartmentWebApi/code/code.csproj"
-            ],
-            "isBuildCommand": true,
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "taskName": "test",
-            "args": [
-                "${workspaceRoot}/DepartmentWebApi/test/test.csproj"
-            ],
-            "isShellCommand": true,
-            "showOutput": "always"
-        }
-    ]
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"taskName": "buildAll",
+			"command": "dotnet build \"./DepartmentWebApi/Code\";dotnet test \"./DepartmentWebApi/test\";dotnet build \"./UserWebApi/Code\";dotnet test \"./UserWebApi/test\";",
+			"type": "shell",
+			"group": "build",
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"taskName": "buildDepartment",
+			"command": "dotnet build \"./DepartmentWebApi/Code\";dotnet test \"./DepartmentWebApi/test\";",
+			"type": "shell",
+			"group": "build",
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"taskName": "buildUser",
+			"command": "dotnet build \"./UserWebApi/Code\";dotnet test \"./UserWebApi/test\";",
+			"type": "shell",
+			"group": "build",
+			"problemMatcher": "$msCompile"
+		}
+	]
 }

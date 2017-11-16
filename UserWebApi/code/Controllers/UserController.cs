@@ -25,12 +25,6 @@ namespace UserWebApi.code.Controllers
 		{
 			Client = _client;
 		}
-
-		public UserController(IBaseRepository<User> dr, ILogger<UserController> logger) :
-			base(dr, logger)
-		{
-		}
-
 		// POST api/values
 		[HttpPost]
 		public override async Task<IActionResult> Post([FromBody]User model)
@@ -39,7 +33,7 @@ namespace UserWebApi.code.Controllers
 			{
 				return BadRequest();
 			}
-			if (Client==null)
+			if (Client == null)
 			{
 				return StatusCode(StatusCodes.Status500InternalServerError);
 			}
@@ -64,7 +58,7 @@ namespace UserWebApi.code.Controllers
 				_logger.LogError(LoggingEvents.GetIncorrectId, $"HttpPut error id= {id}, model.Id={model.Id} ");
 				return BadRequest();
 			}
-			if (Client==null)
+			if (Client == null)
 			{
 				return StatusCode(StatusCodes.Status500InternalServerError);
 			}
