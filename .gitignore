@@ -3,3 +3,5 @@ bin
 obj
 logs
 tmp
+node_modules
+Temp1
