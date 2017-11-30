@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Department } from '../department';
+import { DEPARTMENTS } from '../mock-departments';
 
 @Component({
   selector: 'app-department',
@@ -6,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./department.component.css']
 })
 export class DepartmentComponent implements OnInit {
+
+  departments = DEPARTMENTS;
 
   constructor() { }
 
