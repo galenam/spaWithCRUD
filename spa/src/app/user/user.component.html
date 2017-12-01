@@ -1,15 +1,17 @@
-<span>Add</span><span>Edit</span><span>Delete</span>
-<div class="row">
-	<div class="col-md-2">#</div>
-	<div class="col-md-5">UserName</div>
-	<div class="col-md-5">Department</div>
-	<div *ngFor="let user of Users">
-		<div class="col-md-2">{{user.id}}</div>
-		<div class="col-md-5">{{user.name}}</div>
-		<div class="col-md-5">{{user.departmentName}}</div>
+<div class="mainUsers panel panel-default">
+	<p class="bg-primary">Users</p>
+	<span>Add</span><span>Edit</span><span>Delete</span>
+	<div class="row">
+		<div class="col-md-2">#</div>
+		<div class="col-md-5">UserName</div>
+		<div class="col-md-5">Department</div>
+		<div *ngFor="let user of Users">
+			<div class="col-md-2">{{user.id}}</div>
+			<div class="col-md-5">{{user.name}}</div>
+			<div class="col-md-5">{{user.departmentName}}</div>
+		</div>
 	</div>
 </div>
-
 <div>
 	<label>name : 
 		<input [(ngModel)]="user.name" placeholder="name">
