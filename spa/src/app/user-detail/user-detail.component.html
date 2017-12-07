@@ -1,0 +1,6 @@
+<div class="formUserHide" [hidden]="hideForm" *ngIf="user">
+  <label>name : 
+    <input [(ngModel)]="user.name" placeholder="name">
+  </label>
+  <app-department></app-department>
+</div>
