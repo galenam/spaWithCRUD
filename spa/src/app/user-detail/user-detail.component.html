@@ -1,6 +1,5 @@
-<div class="formUserHide" [hidden]="hideForm" *ngIf="user">
-  <label>name : 
-    <input [(ngModel)]="user.name" placeholder="name">
-  </label>
-  <app-department></app-department>
+<div class="formUserHide panel panel-default form-group" [hidden]="hideForm" *ngIf="user">
+  <p class="bg-primary">User</p>
+  <input [(ngModel)]="user.name" placeholder="name" class="form-control">
+  <app-department [departmentid]="user.departmentid"></app-department>
 </div>

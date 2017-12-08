@@ -35,12 +35,13 @@ export class UserComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.hideForm = true;
   }
 
 
   onSelect(user: User): void {
     this.selectedUser = user;
-    this.hideForm = true;
+    this.hideForm = false;
   }
 
   getCssClass(user: User): string {

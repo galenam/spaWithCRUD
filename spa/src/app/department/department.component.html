@@ -1,8 +1,8 @@
-<p>
-  <select name="department">
+<div class="departments">
+  <select name="department" class="form-control select">
       <option value="" disabled>Choose a department</option>
       <option *ngFor="let department of departments" [ngValue]="department">
         {{ department.name }}
       </option>
   </select>
-</p>
+</div>
