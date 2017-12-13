@@ -52,12 +52,12 @@ export class UserComponent implements OnInit {
   }
 
   showAddForm(): void {
-    this.hideForm = !this.hideForm;
-    this.selectedUser = new User();
+    this.hideForm = false;
+    this.selectedUser = new User(){departmentid = 1; };
   }
-
-  showEditForm(): void {
-    this.hideForm = !this.hideForm;
-  }
-
+  /*
+    showEditForm(): void {
+      this.hideForm = !this.hideForm;
+    }
+  */
 }

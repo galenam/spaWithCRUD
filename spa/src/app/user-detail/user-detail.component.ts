@@ -16,4 +16,8 @@ export class UserDetailComponent implements OnInit {
   ngOnInit() {
   }
 
+  getId(departmentId): number {
+    if (departmentId) return departmentId;
+    return -1;
+  }
 }

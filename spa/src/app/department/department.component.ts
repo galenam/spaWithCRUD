@@ -18,9 +18,7 @@ export class DepartmentComponent implements OnInit {
   }
 
   isSelected(department): boolean {
-    console.log('here');
-    console.log(this.departmentid == department.id);
-    return this.departmentid == department.id;
+    debugger;
+    return department.id == this.departmentid;
   }
-
 }

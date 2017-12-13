@@ -1,7 +1,7 @@
 <div class="departments">
-  <select name="department" class="form-control select">
-      <option value="" disabled>Choose a department</option>
-      <option *ngFor="let department of departments" [ngValue]="department">
+  <select name="department" class="form-control select" [(ngModel)]="departments">
+      <option value="-1" disabled>Choose a department</option>
+      <option *ngFor="let department of departments" [ngValue]="department" [selected]="isSelected(department)">
         {{ department.name }}
       </option>
   </select>
