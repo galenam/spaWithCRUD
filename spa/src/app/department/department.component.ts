@@ -23,9 +23,11 @@ export class DepartmentComponent implements OnInit {
   }
 
   isSelected(department): boolean {
+    /*
     console.log('почему isSelected срабатывает 8 раз при нажатии на кнопку?');
     console.log(department);
     console.log(this.departmentid);
+    */
     return department.id == this.departmentid;
   }
 }

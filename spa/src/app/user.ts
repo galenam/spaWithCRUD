@@ -1,6 +1,6 @@
 export class User {
     id: number;
     name: string;
-    departmentid: number;
+    departmentId: number;
     departmentName?: string;
 }

@@ -18,45 +18,46 @@ using BaseWebApi.Code.AbstractClasses;
 
 namespace code
 {
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-            Log.Logger = new LoggerConfiguration()
-               .MinimumLevel.Warning()
-                .WriteTo.File(
-                    Path.Combine(Directory.GetCurrentDirectory()) + $"\\logs\\departmentwebapi\\log.txt"
-                    , fileSizeLimitBytes: 10240
-                    , outputTemplate: "{Message}" + Environment.NewLine)
-                .CreateLogger();
-        }
+	public class Startup
+	{
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+			Log.Logger = new LoggerConfiguration()
+			   .MinimumLevel.Warning()
+				.WriteTo.File(
+					Path.Combine(Directory.GetCurrentDirectory()) + $"\\logs\\departmentwebapi\\log.txt"
+					, fileSizeLimitBytes: 10240
+					, outputTemplate: "{Message}" + Environment.NewLine)
+				.CreateLogger();
+		}
 
-        public IConfiguration Configuration { get; }
+		public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            var connection = Configuration["ConnectionString:SqliteDB"];
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			var connection = Configuration["ConnectionString:SqliteDB"];
 
-            services.AddDbContext<DepartmentDBContext>(options =>
-            options.UseSqlite(connection));
-            services.AddScoped<IBaseRepository<Department>, DepartmentRepository>();
- 
-            services.AddMvc();
-        }
+			services.AddDbContext<DepartmentDBContext>(options =>
+			options.UseSqlite(connection));
+			services.AddCors();
+			services.AddScoped<IBaseRepository<Department>, DepartmentRepository>();
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+			services.AddMvc();
+		}
 
-            loggerFactory.AddSerilog();
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+		{
+			if (env.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+			}
+			app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+			loggerFactory.AddSerilog();
 
-            app.UseMvc();
-        }
-    }
+			app.UseMvc();
+		}
+	}
 }

@@ -42,6 +42,7 @@ namespace code
 
 			services.AddDbContext<UserDBContext>(options =>
 			options.UseSqlite(connection));
+			services.AddCors();
 			services.AddScoped<IBaseRepository<User>, UserRepository>();
 			services.AddSingleton<IConfiguration>(Configuration);
 
@@ -64,7 +65,7 @@ namespace code
 			{
 				app.UseDeveloperExceptionPage();
 			}
-
+			app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 			loggerFactory.AddSerilog();
 
 			app.UseMvc();
