@@ -34,11 +34,8 @@ export class UserComponent implements OnInit {
     let tmpDepartments = this.departmentService.getDepartments();
     let tmpUsers = this.userService.getUsers();
     forkJoin([tmpUsers, tmpDepartments]).subscribe(([us, dep]: [User[], Department[]]) => {
-      // results[0] is our tmpUsers
-      // results[1] is our tmpDepartments
       this.Departments = dep;
       this.Users = us.map((user1) => {
-        //debugger;
         var department = this.Departments.find((element) => element.id == user1.departmentId);
         if (department != null) {
           user1.departmentName = department.name;
@@ -46,30 +43,6 @@ export class UserComponent implements OnInit {
         return user1;
       });
     });
-
-    /*
-    debugger;
-    this.Users = response;
-    this.departmentService.getDepartments().subscribe(
-      function (response1) {
-        debugger;
-
-        this.Departments = response1;
-        this.Users = this.Users.map((user1) => {
-          debugger;
-          var department = this.Departments.find((element) => element.id == user1.departmentid);
-          if (department != null) {
-            user1.departmentName = department.name;
-          }
-          return user1;
-        });
-      },
-      function (error) { { console.log("Error getDepartments happened" + error) } }
-    )
-  },
-    function (error) { { console.log("Error getUsers happened" + error) } }
-  );
-*/
   }
 
   onSelect(user: User): void {
@@ -87,6 +60,7 @@ export class UserComponent implements OnInit {
   showAddForm(): void {
     this.hideForm = false;
     this.selectedUser = new User();
+    this.selectedUser.id=-1;
     this.selectedUser.departmentId = -1;
   }
   /*

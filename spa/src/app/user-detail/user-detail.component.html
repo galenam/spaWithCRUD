@@ -1,5 +1,8 @@
 <div class="formUserHide panel panel-default form-group" [hidden]="hideForm" *ngIf="user">
   <p class="bg-primary">User</p>
   <input [(ngModel)]="user.name" placeholder="name" class="form-control">
-  <app-department [departmentid]="getId(user.departmentid)"></app-department>
+  <div class="clearfix">
+    <div class="float-left">
+  <app-department [departmentid]="getId(user.departmentid)"></app-department></div>
+  <span class="btn btn-default float-right" (click)="addUser()">{{getName()}}</span> </div> 
 </div>
