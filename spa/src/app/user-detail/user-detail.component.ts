@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { DepartmentComponent } from '../department/department.component';
 import { User } from '../user';
+import { RequiredValidator } from '@angular/forms/src/directives/validators';
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
@@ -11,11 +13,14 @@ export class UserDetailComponent implements OnInit {
 
   @Input() user: User
   buttonName: string;
+  form: FormGroup;
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    
+    this.form = this.formBuilder.group({
+      name: [null, [RequiredValidator]]
+    });
   }
 
   getId(departmentId): number {
@@ -23,12 +28,14 @@ export class UserDetailComponent implements OnInit {
     return -1;
   }
 
-  addUser():void
-  {}
+  addUser(user): void {
+    if (this.form.valid) {
+      console.log(user);
+    }
+  }
 
-  getName():string
-  {
-    if(this.user!=null && this.user.id>0) {return "Update"}
-    else {return "Add"};
+  getName(): string {
+    if (this.user != null && this.user.id > 0) { return "Update" }
+    else { return "Add" };
   }
 }

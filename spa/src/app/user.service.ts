@@ -18,4 +18,9 @@ export class UserService {
     return result;
   }
 
+  addUser(user): Observable<number> {
+    var result = this.http.post<number>(this.userURL, user);
+    return result;
+  }
+
 }
