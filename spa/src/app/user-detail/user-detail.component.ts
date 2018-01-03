@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { DepartmentComponent } from '../department/department.component';
 import { User } from '../user';
-import { RequiredValidator } from '@angular/forms/src/directives/validators';
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
@@ -14,12 +13,11 @@ export class UserDetailComponent implements OnInit {
   @Input() user: User
   buttonName: string;
   form: FormGroup;
-
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      name: [null, [RequiredValidator]]
+      name: [null, [Validators.required]]
     });
   }
 
