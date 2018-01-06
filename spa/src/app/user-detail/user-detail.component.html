@@ -1,11 +1,11 @@
-<form (ngSubmit)="addUser(user)" [formGroup]="form" class="formUserHide panel panel-default" [hidden]="hideForm" *ngIf="user" (ngModel)="user">
+<form (ngSubmit)="addUser(user)" [formGroup]="form" class="formUserHide panel panel-default" [hidden]="hideForm" *ngIf="user" novalidate>
   <div class="form-group">
     <label for="name" class="control-label">User</label>
-    <input type="text" class="form-control" formControlName="name" id="name" name="name">
+    <input type="text" class="form-control" formControlName="name" id="name">
   </div>
   <div class="clearfix">
     <div class="float-left">
-      <app-department [departmentid]="getId(user.departmentid)"></app-department>
+      <app-department [departmentid]="getId(user.departmentid)" formControlName="departmentId"></app-department>
     </div>
     <button type="submit" class="btn btn-default float-right">{{getName()}}</button>
   </div>

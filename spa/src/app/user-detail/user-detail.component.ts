@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { DepartmentComponent } from '../department/department.component';
@@ -13,13 +13,25 @@ export class UserDetailComponent implements OnInit {
   @Input() user: User
   buttonName: string;
   form: FormGroup;
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) {
+    this.form = this.formBuilder.group({
+      name: [null, [Validators.required]],
+      departmentId: [null, [Validators.min(1)]]
+    });
+   }
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
-      name: [null, [Validators.required]]
+  }
+
+  ngOnChanges()
+  {
+    var nameValue = this.user == null ? '' : this.user.name;
+    this.form.patchValue({
+      name: nameValue|| ''
+      
     });
   }
+
 
   getId(departmentId): number {
     if (departmentId) return departmentId;
@@ -29,6 +41,8 @@ export class UserDetailComponent implements OnInit {
   addUser(user): void {
     if (this.form.valid) {
       console.log(user);
+      //<p>Street value: {{ heroForm.get('address.street').value}}</p>
+      console.log(this.form.value);
     }
   }
 
