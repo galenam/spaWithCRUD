@@ -16,7 +16,7 @@ export class UserDetailComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
       name: [null, [Validators.required]],
-      departmentId: [null, [Validators.min(1)]]
+      formDepartment: [null, [Validators.min(1)]]
     });
    }
 
@@ -27,8 +27,7 @@ export class UserDetailComponent implements OnInit {
   {
     var nameValue = this.user == null ? '' : this.user.name;
     this.form.patchValue({
-      name: nameValue|| ''
-      
+      name: nameValue|| ''      
     });
   }
 

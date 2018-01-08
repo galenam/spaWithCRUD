@@ -1,8 +1,10 @@
-<div class="departments">
-  <select name="department" class="form-control select" [(ngModel)]="departments" required ngModel>
+<div class="departments"  [formGroup]="formDepartment" novalidate>
+  <div class="form-group">
+  <select name="department" class="form-control select" [(ngModel)]="departments" ngModel formControlName="departmentControl" >
     <option value="-1" disabled>Choose a department</option>
     <option *ngFor="let department of departments" [ngValue]="department" [selected]="isSelected(department)">
       {{ department.name }}
     </option>
   </select>
+</div>
 </div>
