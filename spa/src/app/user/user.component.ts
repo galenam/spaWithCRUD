@@ -46,6 +46,7 @@ export class UserComponent implements OnInit {
   }
 
   onSelect(user: User): void {
+
     this.selectedUser = user;
     this.hideForm = false;
   }
@@ -60,7 +61,7 @@ export class UserComponent implements OnInit {
   showAddForm(): void {
     this.hideForm = false;
     this.selectedUser = new User();
-    this.selectedUser.id=-1;
+    this.selectedUser.id = -1;
     this.selectedUser.departmentId = -1;
   }
   /*

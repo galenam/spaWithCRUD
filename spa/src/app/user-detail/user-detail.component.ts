@@ -18,29 +18,31 @@ export class UserDetailComponent implements OnInit {
       name: [null, [Validators.required]],
       formDepartment: [null, [Validators.min(1)]]
     });
-   }
+  }
 
   ngOnInit() {
+
   }
 
-  ngOnChanges()
-  {
+  ngOnChanges() {
+
     var nameValue = this.user == null ? '' : this.user.name;
     this.form.patchValue({
-      name: nameValue|| ''      
+      name: nameValue || ''
     });
+
   }
 
 
-  getId(departmentId): number {
-    if (departmentId) return departmentId;
+  getId(): number {
+
+    if (this.user != null) return this.user.departmentId;
     return -1;
   }
 
   addUser(user): void {
     if (this.form.valid) {
       console.log(user);
-      //<p>Street value: {{ heroForm.get('address.street').value}}</p>
       console.log(this.form.value);
     }
   }

@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import {ControlValueAccessor, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, Input, OnChanges, forwardRef } from '@angular/core';
+import { ControlValueAccessor, FormGroup, FormBuilder, Validators, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { Department } from '../department';
 import { DepartmentService } from '../department.service';
@@ -7,20 +7,25 @@ import { DepartmentService } from '../department.service';
 @Component({
   selector: 'app-department',
   templateUrl: './department.component.html',
-  styleUrls: ['./department.component.less']
+  styleUrls: ['./department.component.less'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: forwardRef(() => DepartmentComponent),
+    }]
 })
-export class DepartmentComponent implements OnInit, ControlValueAccessor  {
-//https://stackoverflow.com/questions/40513450/controlvalueaccessor-with-multiple-formcontrol-in-child-component
+export class DepartmentComponent implements OnInit, ControlValueAccessor {
   writeValue(value: any): void {
-  if(value) {
-    this.formDepartment.setValue(value);
-}
+    if (value) {
+      this.formDepartment.setValue(value);
+    }
   }
   registerOnChange(fn: any): void {
     this.formDepartment.valueChanges.subscribe(fn);
   }
   registerOnTouched(fn: any): void {
-    
+
   }
   setDisabledState?(isDisabled: boolean): void {
     //throw new Error("Method not implemented.");
@@ -30,12 +35,12 @@ export class DepartmentComponent implements OnInit, ControlValueAccessor  {
   @Input() departmentid: number;
   formDepartment: FormGroup;
 
-  
+
   constructor(private formBuilder: FormBuilder, private departmentService: DepartmentService) {
     this.formDepartment = this.formBuilder.group({
       departmentControl: [null, [Validators.required]]
     });
-   }
+  }
   ngOnInit() {
     this.getDepartments();
   }
@@ -50,6 +55,7 @@ export class DepartmentComponent implements OnInit, ControlValueAccessor  {
     console.log(department);
     console.log(this.departmentid);
     */
+    console.log('isSelected');
     return department.id == this.departmentid;
   }
 }
