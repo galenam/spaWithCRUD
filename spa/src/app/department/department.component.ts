@@ -21,14 +21,15 @@ export class DepartmentComponent implements OnInit, ControlValueAccessor {
       this.formDepartment.setValue(value);
     }
   }
+
   registerOnChange(fn: any): void {
     this.formDepartment.valueChanges.subscribe(fn);
   }
+
   registerOnTouched(fn: any): void {
 
   }
   setDisabledState?(isDisabled: boolean): void {
-    //throw new Error("Method not implemented.");
   }
 
   departments: Department[];
@@ -49,13 +50,15 @@ export class DepartmentComponent implements OnInit, ControlValueAccessor {
     this.departmentService.getDepartments().subscribe(departments => this.departments = departments);
   }
 
-  isSelected(department): boolean {
-    /*
-    console.log('почему isSelected срабатывает 8 раз при нажатии на кнопку?');
-    console.log(department);
-    console.log(this.departmentid);
-    */
-    console.log('isSelected');
-    return department.id == this.departmentid;
+  onChange(value): void {
+    if (value) {
+      var ids = value.split(':');
+      if (ids && ids[1]) {
+        var id = parseInt(ids[1]);
+        this.formDepartment.patchValue({
+          departmentControl: id || -1
+        });
+      }
+    }
   }
 }

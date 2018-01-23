@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { DepartmentComponent } from '../department/department.component';
@@ -24,18 +24,18 @@ export class UserDetailComponent implements OnInit {
 
   }
 
-  ngOnChanges() {
-
+  ngOnChanges(changes: SimpleChanges) {
     var nameValue = this.user == null ? '' : this.user.name;
+    var departmentid = this.user == null ? -1 : this.user.departmentId;
     this.form.patchValue({
-      name: nameValue || ''
+      name: nameValue || ''/*,
+      formDepartment: departmentid || -1*/
     });
 
   }
 
 
   getId(): number {
-
     if (this.user != null) return this.user.departmentId;
     return -1;
   }
