@@ -18,11 +18,12 @@ import { DepartmentService } from '../department.service';
 export class DepartmentComponent implements OnInit, ControlValueAccessor {
   writeValue(value: any): void {
     if (value) {
-      this.formDepartment.setValue(value);
+      //this.formDepartment.setValue(value);
     }
   }
 
   registerOnChange(fn: any): void {
+    debugger;
     this.formDepartment.valueChanges.subscribe(fn);
   }
 
@@ -48,17 +49,5 @@ export class DepartmentComponent implements OnInit, ControlValueAccessor {
 
   getDepartments(): void {
     this.departmentService.getDepartments().subscribe(departments => this.departments = departments);
-  }
-
-  onChange(value): void {
-    if (value) {
-      var ids = value.split(':');
-      if (ids && ids[1]) {
-        var id = parseInt(ids[1]);
-        this.formDepartment.patchValue({
-          departmentControl: id || -1
-        });
-      }
-    }
   }
 }

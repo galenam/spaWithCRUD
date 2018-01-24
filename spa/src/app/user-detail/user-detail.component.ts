@@ -21,15 +21,14 @@ export class UserDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
   ngOnChanges(changes: SimpleChanges) {
+
     var nameValue = this.user == null ? '' : this.user.name;
     var departmentid = this.user == null ? -1 : this.user.departmentId;
     this.form.patchValue({
-      name: nameValue || ''/*,
-      formDepartment: departmentid || -1*/
+      name: nameValue || ''
     });
 
   }
