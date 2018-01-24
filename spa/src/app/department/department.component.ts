@@ -23,7 +23,6 @@ export class DepartmentComponent implements OnInit, ControlValueAccessor {
   }
 
   registerOnChange(fn: any): void {
-    debugger;
     this.formDepartment.valueChanges.subscribe(fn);
   }
 
