@@ -13,5 +13,4 @@ export class DepartmentService {
     var result = this.http.get<Department[]>(this.departmentURL);
     return result;
   }
-
 }

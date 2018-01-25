@@ -22,5 +22,4 @@ export class UserService {
     var result = this.http.post<number>(this.userURL, user);
     return result;
   }
-
 }

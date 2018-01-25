@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { DepartmentComponent } from '../department/department.component';
 import { User } from '../user';
+
+import { UserService } from '../user.service';
+
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
@@ -13,7 +16,7 @@ export class UserDetailComponent implements OnInit {
   @Input() user: User
   buttonName: string;
   form: FormGroup;
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService) {
     this.form = this.formBuilder.group({
       name: [null, [Validators.required]],
       formDepartment: [null, [Validators.min(1)]]
@@ -41,8 +44,13 @@ export class UserDetailComponent implements OnInit {
 
   addUser(user): void {
     if (this.form.valid) {
-      console.log(user);
-      console.log(this.form.value);
+      if (user.id < 0) {
+        user.name = this.form.controls['name'].value;
+        debugger;
+        user.departmentId = this.form.controls['formDepartment'].value.departmentControl;
+        //todo : сохранить в бд 
+        console.log(user);
+      }
     }
   }
 
