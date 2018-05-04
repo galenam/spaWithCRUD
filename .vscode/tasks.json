@@ -4,22 +4,46 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"taskName": "buildAll",
+			"label": "build",
+			"command": "dotnet build",
+			"type": "shell",
+			"group": "build",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "builTestsAll",
 			"command": "dotnet build \"./DepartmentWebApi/Code\";dotnet test \"./DepartmentWebApi/test\";dotnet build \"./UserWebApi/Code\";dotnet test \"./UserWebApi/test\";",
 			"type": "shell",
 			"group": "build",
 			"problemMatcher": "$msCompile"
 		},
 		{
-			"taskName": "buildDepartment",
+			"label": "buildTestDepartment",
 			"command": "dotnet build \"./DepartmentWebApi/Code\";dotnet test \"./DepartmentWebApi/test\";",
 			"type": "shell",
 			"group": "build",
 			"problemMatcher": "$msCompile"
 		},
 		{
-			"taskName": "buildUser",
+			"label": "buildTestUser",
 			"command": "dotnet build \"./UserWebApi/Code\";dotnet test \"./UserWebApi/test\";",
+			"type": "shell",
+			"group": "build",
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "buildUser",
+			"command": "dotnet build \"./UserWebApi/Code\";",
+			"type": "shell",
+			"group": "build",
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "buildDepartment",
+			"command": "dotnet build \"./DepartmentWebApi/Code\";",
 			"type": "shell",
 			"group": "build",
 			"problemMatcher": "$msCompile"

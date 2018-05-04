@@ -1,14 +1,14 @@
 {
-   // Use IntelliSense to find out which attributes exist for C# debugging
-   // Use hover for the description of the existing attributes
-   // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-   "version": "0.2.0",
-   "configurations": [
+    // Use IntelliSense to find out which attributes exist for C# debugging
+    // Use hover for the description of the existing attributes
+    // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+    "version": "0.2.0",
+    "configurations": [
         {
-            "name": ".NET Core Launch (web)",
+            "name": ".NET Core Launch (Department)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "buildDepartment",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceRoot}/DepartmentWebApi/code/bin/Debug/netcoreapp2.0/code.dll",
             "args": [],
@@ -37,10 +37,51 @@
             }
         },
         {
+            "name": ".NET Core Launch (User)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildUser",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceRoot}/UserWebApi/code/bin/Debug/netcoreapp2.0/code.dll",
+            "args": [],
+            "cwd": "${workspaceRoot}/UserWebApi/code",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "launchBrowser": {
+                "enabled": true,
+                "args": "${auto-detect-url}",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start ${auto-detect-url}"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceRoot}/Views"
+            }
+        },
+        {
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach",
             "processId": "${command:pickProcess}"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Hole solution",
+            "configurations": [
+                ".NET Core Launch (User)",
+                ".NET Core Launch (Department)"
+            ]
         }
     ]
 }

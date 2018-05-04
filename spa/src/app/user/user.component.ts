@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { forkJoin } from "rxjs/observable/forkJoin";
 
 import { User } from '../user';
@@ -16,8 +16,7 @@ import { DepartmentService } from '../department.service';
 })
 export class UserComponent implements OnInit {
 
-  constructor(private userService: UserService, private departmentService: DepartmentService)
-  { }
+  constructor(private userService: UserService, private departmentService: DepartmentService, private cdr: ChangeDetectorRef) { }
 
   Users: User[];
   Departments: Department[];
@@ -48,6 +47,7 @@ export class UserComponent implements OnInit {
   onSelect(user: User): void {
 
     this.selectedUser = user;
+    this.cdr.detectChanges();
     this.hideForm = false;
   }
 
@@ -63,10 +63,6 @@ export class UserComponent implements OnInit {
     this.selectedUser = new User();
     this.selectedUser.id = -1;
     this.selectedUser.departmentId = -1;
+    this.cdr.detectChanges();
   }
-  /*
-    showEditForm(): void {
-      this.hideForm = !this.hideForm;
-    }
-  */
 }

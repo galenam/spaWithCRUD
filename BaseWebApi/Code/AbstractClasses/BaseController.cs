@@ -38,7 +38,6 @@ namespace BaseWebApi.Code.AbstractClasses
 			return new ObjectResult(await _baseRepository.GetAllAsync());
 		}
 
-
 		// GET api/values/5
 		[HttpGet("{id}")]
 		public virtual async Task<IActionResult> Get(long id)
