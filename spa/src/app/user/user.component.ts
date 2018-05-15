@@ -44,8 +44,13 @@ export class UserComponent implements OnInit {
     });
   }
 
-  onSelect(user: User): void {
+  getUsersIfUpdated(updated: boolean) {
+    if (updated) {
+      this.getUsers();
+    }
+  }
 
+  onSelect(user: User): void {
     this.selectedUser = user;
     this.cdr.detectChanges();
     this.hideForm = false;

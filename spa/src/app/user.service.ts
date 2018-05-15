@@ -22,4 +22,10 @@ export class UserService {
     var result = this.http.post<number>(this.userURL, user);
     return result;
   }
+
+  updateUser(user): Observable<any> {
+    var putUrl = this.userURL + "/" + user.id;
+    var result = this.http.put<any>(putUrl, user);
+    return result;
+  }
 }

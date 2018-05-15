@@ -19,5 +19,5 @@
 	</div>
 </div>
 <div [hidden]="hideForm">
-	<app-user-detail [user]="selectedUser" ng-show="selectedUser"></app-user-detail>
+	<app-user-detail [user]="selectedUser" ng-show="selectedUser" (updateUserListEvent)="getUsersIfUpdated($event)"></app-user-detail>
 </div>

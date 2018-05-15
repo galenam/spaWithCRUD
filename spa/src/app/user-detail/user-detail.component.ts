@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { DepartmentComponent } from '../department/department.component';
@@ -13,7 +13,8 @@ import { UserService } from '../user.service';
 })
 export class UserDetailComponent implements OnInit {
 
-  @Input() user: User
+  @Input() user: User;
+  @Output() updateUserListEvent = new EventEmitter<boolean>();
   buttonName: string;
   form: FormGroup;
   userAdded: boolean;
@@ -47,13 +48,35 @@ export class UserDetailComponent implements OnInit {
   addUser(user): void {
     if (this.form.valid) {
       if (user.id < 0) {
-        user.id = 0;
-        user.name = this.form.controls['name'].value;
-        user.departmentId = this.form.controls['formDepartment'].value.departmentControl;
-        this.userService.addUser(user).subscribe(result => this.userAdded = result > 0);;
+        user = this.prepareUserToApi(0);
+        this.userService.addUser(user).subscribe(result => {
+          this.userAdded = result > 0;
+          if (this.userAdded) {
+            this.updateUserListEvent.next(true);
+            this.user = new User();
+            this.user.id = -1;
+            this.user.departmentId = -1;
+            this.user.name = '';
+          }
+        });
+      }
+      else {
+        user = this.prepareUserToApi(user.id);
+        this.userService.updateUser(user).subscribe(result => {
+          console.log(result);
+        });
       }
     }
   }
+
+  prepareUserToApi(id): User {
+    var user = new User();
+    user.id = id;
+    user.name = this.form.controls['name'].value;
+    user.departmentId = this.form.controls['formDepartment'].value.departmentControl;
+    return user;
+  }
+
 
   getName(): string {
     if (this.user != null && this.user.id > 0) {
