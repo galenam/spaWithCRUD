@@ -62,9 +62,7 @@ export class UserDetailComponent implements OnInit {
       }
       else {
         user = this.prepareUserToApi(user.id);
-        this.userService.updateUser(user).subscribe(result => {
-          console.log(result);
-        });
+        this.userService.updateUser(user).subscribe();
       }
     }
   }

@@ -69,7 +69,7 @@ namespace UserWebApi.code.Controllers
 			}
 
 			var result = await _baseRepository.UpdateAsync(model);
-			if (result) { return new OkResult(); }
+			if (result) { return new NoContentResult(); }
 			return BadRequest();
 		}
 	}

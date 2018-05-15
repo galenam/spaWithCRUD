@@ -88,7 +88,7 @@ namespace UserWebApi.Tests
 		}
 
 		[Theory]
-		[InlineData(0, "Test user", 0, 1, true, typeof(OkResult))]
+		[InlineData(0, "Test user", 0, 1, true, typeof(NoContentResult))]
 		[InlineData(0, "Test user", 1, 1, true, typeof(BadRequestResult))]
 		[InlineData(0, "Test user", 0, 1, false, typeof(BadRequestResult))]
 		public async void Put(int id, string titleUser, int idUser, int departmentId, bool resultUpdate, Type t)
@@ -110,13 +110,6 @@ namespace UserWebApi.Tests
 			var departmentController = new UserController(mockUserRepository.Object, mockLogger.Object, mockRest);
 			var result = await departmentController.Put(id, user);
 			Assert.IsType(t, result);
-
-			if (t == typeof(OkObjectResult))
-			{
-				var objectResult = Assert.IsType<OkObjectResult>(result);
-				var repoReturn = Assert.IsType<bool>(objectResult.Value);
-				Assert.True(repoReturn);
-			}
 		}
 
 		[Theory]

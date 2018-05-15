@@ -78,7 +78,7 @@ namespace DepartmentWebApi.Tests
 		}
 
 		[Theory]
-		[InlineData(0, "Test department", 0, true, typeof(OkResult))]
+		[InlineData(0, "Test department", 0, true, typeof(NoContentResult))]
 		[InlineData(0, "Test department", 1, true, typeof(BadRequestResult))]
 		[InlineData(0, "Test department", 0, false, typeof(BadRequestResult))]
 		public async void Put(int id, string titleDepartment, int idDepartment, bool resultUpdate, Type t)
@@ -91,13 +91,6 @@ namespace DepartmentWebApi.Tests
 			var departmentController = new DepartmentController(mockDepartmentRepository.Object, mockLogger.Object);
 			var result = await departmentController.Put(id, department);
 			Assert.IsType(t, result);
-
-			if (t == typeof(OkObjectResult))
-			{
-				var objectResult = Assert.IsType<OkObjectResult>(result);
-				var repoReturn = Assert.IsType<bool>(objectResult.Value);
-				Assert.True(repoReturn);
-			}
 		}
 
 		[Theory]
