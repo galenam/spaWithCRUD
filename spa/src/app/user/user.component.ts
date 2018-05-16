@@ -33,20 +33,32 @@ export class UserComponent implements OnInit {
     let tmpDepartments = this.departmentService.getDepartments();
     let tmpUsers = this.userService.getUsers();
     forkJoin([tmpUsers, tmpDepartments]).subscribe(([us, dep]: [User[], Department[]]) => {
-      this.Departments = dep;
-      this.Users = us.map((user1) => {
-        var department = this.Departments.find((element) => element.id == user1.departmentId);
-        if (department != null) {
-          user1.departmentName = department.name;
-        }
-        return user1;
-      });
+      this.reloadUsers(us, dep);
     });
   }
 
-  getUsersIfUpdated(updated: boolean) {
+  reloadUsers(users: User[], departments: Department[]) {
+    this.Departments = departments;
+    this.Users = users.map((user1) => {
+      var department = this.Departments.find((element) => element.id == user1.departmentId);
+      if (department != null) {
+        user1.departmentName = department.name;
+      }
+      return user1;
+    });
+  }
+
+  getUsersIfUpdated(updated: User) {
     if (updated) {
-      this.getUsers();
+      var existed = this.Users.findIndex(us => us.id == updated.id);
+      if (existed >= 0) {
+        this.Users[existed].departmentId = updated.departmentId;
+        this.Users[existed].name = updated.name;
+      }
+      else {
+        this.Users.push(updated);
+      }
+      this.reloadUsers(this.Users, this.Departments);
     }
   }
 

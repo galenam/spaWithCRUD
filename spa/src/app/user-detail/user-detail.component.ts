@@ -52,7 +52,8 @@ export class UserDetailComponent implements OnInit {
         this.userService.addUser(user).subscribe(result => {
           this.userAdded = result > 0;
           if (this.userAdded) {
-            this.updateUserListEvent.next(true);
+            user.id = result;
+            this.updateUserListEvent.next(user);
             this.user = new User();
             this.user.id = -1;
             this.user.departmentId = -1;
@@ -62,7 +63,9 @@ export class UserDetailComponent implements OnInit {
       }
       else {
         user = this.prepareUserToApi(user.id);
-        this.userService.updateUser(user).subscribe();
+        this.userService.updateUser(user).subscribe(result => {
+          this.updateUserListEvent.next(user);
+        });
       }
     }
   }
