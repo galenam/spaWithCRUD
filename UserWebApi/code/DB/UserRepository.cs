@@ -28,6 +28,7 @@ namespace UserWebApi.code.DB
 		protected override void UpdateModel(User destination, User source)
 		{
 			destination.Name = source.Name;
+			destination.DepartmentId = source.DepartmentId;
 		}
 	}
 }

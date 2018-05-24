@@ -75,9 +75,10 @@ namespace BaseWebApi.Code.AbstractClasses
                 _logger.LogError(LoggingEvents.NoSuchIdInDB, $"Update error in db department no such id: id={model.Id}, title={model.Name}");                
                 return await Task.FromResult(false);
             }
-			UpdateModel(modelForUpdate, model); 
 
-            var existedModelInSuchDB = GetDbSet().FirstOrDefault(d => d.Name == modelForUpdate.Name);
+            var existedModelInSuchDB = GetDbSet().FirstOrDefault(
+                d => Eq(d, model)
+                );
             if ( existedModelInSuchDB!= null )
             {
                 _logger.LogInformation(LoggingEvents.TitleExistsInDB, $"Such title exists in DB. Title={existedModelInSuchDB.Name}, existed id={existedModelInSuchDB.Id}, updated department id={model.Id}");
@@ -85,6 +86,7 @@ namespace BaseWebApi.Code.AbstractClasses
             }
             try
             {
+                UpdateModel(modelForUpdate, model);
                 GetDbSet().Update(modelForUpdate);
                 return await _context.SaveChangesAsync()>0;
             }
@@ -93,6 +95,10 @@ namespace BaseWebApi.Code.AbstractClasses
                 _logger.LogInformation(LoggingEvents.UpdateDBError, ex,  $"Can't update department in DB. Title={model.Name}, id={model.Id}");                
                 return await Task.FromResult(false);
             }
+        }
+        private bool Eq(U d, U modelForUpdate)
+        {
+            return d.Equals(modelForUpdate) || d == modelForUpdate;
         }
  
         public virtual async Task<bool> DeleteAsync(long id)
