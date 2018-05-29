@@ -3,7 +3,6 @@
 	<div class="buttons">
 		<span class="btn btn-default" (click)="showAddForm()">Add</span>
 		<!--<span class="btn btn-default" (click)="showEditForm()">Edit</span>-->
-		<span class="btn btn-default">Delete</span>
 	</div>
 	<div class="panel panel-default Users">
 		<div class="row bold localRow">
@@ -19,5 +18,5 @@
 	</div>
 </div>
 <div [hidden]="hideForm">
-	<app-user-detail [user]="selectedUser" ng-show="selectedUser" (updateUserListEvent)="getUsersIfUpdated($event)"></app-user-detail>
+	<app-user-detail [user]="selectedUser" ng-show="selectedUser" (updateUserListEvent)="getUsersIfUpdated($event)" (deleteUserListEvent)="deleteUser($event)"></app-user-detail>
 </div>

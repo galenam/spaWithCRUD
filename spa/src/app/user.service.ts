@@ -32,6 +32,16 @@ export class UserService {
     );
     return result;
   }
+
+  deleteUser(id): Observable<object> {
+    var deleteUrl = this.userURL + "/" + id;
+    var result = this.http.delete(deleteUrl).pipe(
+      catchError(this.handleError)
+    );
+    return result;
+  }
+
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

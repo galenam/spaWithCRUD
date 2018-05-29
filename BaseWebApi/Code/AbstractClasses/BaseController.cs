@@ -92,7 +92,7 @@ namespace BaseWebApi.Code.AbstractClasses
 		{
 			if (id <= 0) { return BadRequest(); }
 			var result = await _baseRepository.DeleteAsync(id);
-			if (result) return new OkResult();
+			if (result) return new NoContentResult();
 			return BadRequest();
 		}
 	}

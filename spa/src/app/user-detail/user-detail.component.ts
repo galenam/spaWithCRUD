@@ -15,6 +15,8 @@ export class UserDetailComponent implements OnInit {
 
   @Input() user: User;
   @Output() updateUserListEvent = new EventEmitter<boolean>();
+  @Output() deleteUserListEvent = new EventEmitter<number>();
+
   buttonName: string;
   form: FormGroup;
   userAdded: boolean;
@@ -78,11 +80,19 @@ export class UserDetailComponent implements OnInit {
     return user;
   }
 
-
   getName(): string {
     if (this.user != null && this.user.id > 0) {
       return "Update"
     }
     else { return "Add" };
+  }
+
+  deleteUser(): void {
+    if (this.user && this.user.id > 0) {
+      this.userService.deleteUser(this.user.id).subscribe(result => {
+        this.deleteUserListEvent.next(this.user.id);
+        this.user = null;
+      });
+    }
   }
 }

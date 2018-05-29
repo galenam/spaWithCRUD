@@ -62,6 +62,14 @@ export class UserComponent implements OnInit {
     }
   }
 
+  deleteUser(id: number) {
+    var existed = this.Users.findIndex(us => us.id == id);
+    if (existed != null) {
+      this.Users.splice(existed, 1);
+      this.reloadUsers(this.Users, this.Departments);
+    }
+  }
+
   onSelect(user: User): void {
     this.selectedUser = user;
     this.cdr.detectChanges();
