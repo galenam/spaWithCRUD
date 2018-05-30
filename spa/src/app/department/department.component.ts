@@ -17,9 +17,9 @@ import { DepartmentService } from '../department.service';
 })
 export class DepartmentComponent implements OnInit, ControlValueAccessor {
   writeValue(value: any): void {
-    if (value) {
-      //this.formDepartment.setValue(value);
-    }
+    this.formDepartment.patchValue({
+      departmentControl: value
+    });
   }
 
   registerOnChange(fn: any): void {

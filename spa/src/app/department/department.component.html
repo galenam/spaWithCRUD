@@ -1,9 +1,9 @@
 <div class="departments" [formGroup]="formDepartment" novalidate>
   <div class="form-group">
-    <select name="department" class="form-control select" [(ngModel)]="departmentid" formControlName="departmentControl">    
-    <option *ngFor="let department of departments" [ngValue]="department.id" >
-      {{ department.name }}
-    </option>
-  </select>
+    <select name="department" class="form-control select" [(ngModel)]="departmentid" formControlName="departmentControl">
+      <option *ngFor="let department of departments" [ngValue]="department.id">
+        {{ department.name }}
+      </option>
+    </select>
   </div>
 </div>

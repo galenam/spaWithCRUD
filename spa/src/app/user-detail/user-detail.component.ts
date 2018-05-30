@@ -60,6 +60,11 @@ export class UserDetailComponent implements OnInit {
             this.user.id = -1;
             this.user.departmentId = -1;
             this.user.name = '';
+            // todo : разобраться, как очищать контрол после создания пользователя
+            this.form.patchValue({
+              name: '',
+              formDepartment: -1
+            });
           }
         });
       }
