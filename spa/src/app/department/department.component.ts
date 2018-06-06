@@ -39,11 +39,12 @@ export class DepartmentComponent implements OnInit, ControlValueAccessor {
 
   constructor(private formBuilder: FormBuilder, private departmentService: DepartmentService) {
     this.formDepartment = this.formBuilder.group({
-      departmentControl: [null, [Validators.required]]
+      departmentControl: [null, [Validators.required, Validators.min(0)]]
     });
   }
   ngOnInit() {
     this.getDepartments();
+
   }
 
   getDepartments(): void {

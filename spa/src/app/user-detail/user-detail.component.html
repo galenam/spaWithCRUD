@@ -1,10 +1,12 @@
 <form (ngSubmit)="addUser(user)" [formGroup]="form" class="formUserHide panel panel-default" [hidden]="hideForm" *ngIf="user"
   novalidate>
-  <div class="form-group">
+
+  <div class="form-group" [ngClass]="{ 'has-danger': form.controls.name.invalid && form.controls.name.dirty, 'has-success': form.controls.name.valid && form.controls.name.dirty }">
     <div class="bg-primary">
       <label for="name" class="control-label ">User</label>
     </div>
-    <input type="text" class="form-control" formControlName="name" id="name">
+
+    <input type="text" class="form-control input" formControlName="name" id="name" required minlength="4" [disabled]="form.invalid">
   </div>
   <div class="clearfix">
     <div class="float-left">

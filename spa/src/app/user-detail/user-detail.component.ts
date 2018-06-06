@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import { DepartmentComponent } from '../department/department.component';
 import { User } from '../user';
@@ -23,8 +23,12 @@ export class UserDetailComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private userService: UserService) {
     this.form = this.formBuilder.group({
-      name: [null, [Validators.required]],
-      formDepartment: [null, [Validators.min(1)]]
+      //name: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z]{1,30}[ ]?[a-zA-Z]{0,30}')]),
+      name: [null, [Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z]{1,30}[ ]?[a-zA-Z]{0,30}')]],
+      formDepartment: [null, [Validators.min(0)]]
+      /*formDepartment: this.formBuilder.group({
+        departmentControl: [null, [Validators.required, Validators.min(11)]]
+      })*/
     });
   }
 
@@ -60,7 +64,6 @@ export class UserDetailComponent implements OnInit {
             this.user.id = -1;
             this.user.departmentId = -1;
             this.user.name = '';
-            // todo : разобраться, как очищать контрол после создания пользователя
             this.form.patchValue({
               name: '',
               formDepartment: -1
