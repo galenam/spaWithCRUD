@@ -1,4 +1,4 @@
-Разработать single page application в котором реализовать интеграцию двух сервисов (ASP.Net WebApi). На UI реализовать отображения списка пользователей и полный CRUD.
+Р Р°Р·СЂР°Р±РѕС‚Р°С‚СЊ single page application РІ РєРѕС‚РѕСЂРѕРј СЂРµР°Р»РёР·РѕРІР°С‚СЊ РёРЅС‚РµРіСЂР°С†РёСЋ РґРІСѓС… СЃРµСЂРІРёСЃРѕРІ (ASP.Net WebApi). РќР° UI СЂРµР°Р»РёР·РѕРІР°С‚СЊ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ СЃРїРёСЃРєР° РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ Рё РїРѕР»РЅС‹Р№ CRUD.
 WebApi1
 	db1 : Table User : Id: int, UserName: string, DepartmentId: id 
 	db2 : Table DEpartment : Id: int , Title: string
