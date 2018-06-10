@@ -7,4 +7,8 @@
       </option>
     </select>
   </div>
+  <div *ngIf="formDepartment.controls.departmentControl.errors && (formDepartment.controls.departmentControl.dirty || formDepartment.controls.departmentControl.touched)">
+    <div class="error" *ngIf="formDepartment.controls.departmentControl.errors.required">Fill department</div>
+    <div class="error" *ngIf="formDepartment.controls.departmentControl.errors.min">Department should not be empty</div>
+  </div>
 </div>

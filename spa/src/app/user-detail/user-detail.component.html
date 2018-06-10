@@ -12,9 +12,21 @@
     <div class="float-left">
       <app-department [departmentid]="getId()" formControlName="formDepartment"></app-department>
     </div>
+    <div *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)">
+      <div class="error" *ngIf="form.controls.name.errors.required">Fill user name</div>
+      <div class="error" *ngIf="form.controls.name.errors.minlength">Minimum length is 4 symbols</div>
+      <div class="error" *ngIf="form.controls.name.errors.pattern">Only letters and 1 blank allowed</div>
+    </div>
+    <div>
+      <div class="error" *ngIf="errorType == operationTypeEnum.Add">Error occupied during adding user</div>
+      <div class="error" *ngIf="errorType == operationTypeEnum.Update">Error occupied during updating user</div>
+      <div class="error" *ngIf="errorType == operationTypeEnum.Delete">Error occupied during deleting user</div>
+    </div>
     <div class="marginButtons">
-      <button type="submit" class="btn btn-default float-right">{{getName()}}</button>
+      <button type="submit" class="btn btn-default float-right button-submit" [disabled]="!form.valid">{{getName()}}</button>
       <span class="btn btn-default" *ngIf="user && user.id>0" (click)="deleteUser()">Delete</span>
     </div>
+  </div>
+  <div>
   </div>
 </form>

@@ -6,6 +6,8 @@ import { User } from '../user';
 
 import { UserService } from '../user.service';
 
+import { OperationTypeEnum } from '../app.component';
+
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
@@ -20,15 +22,13 @@ export class UserDetailComponent implements OnInit {
   buttonName: string;
   form: FormGroup;
   userAdded: boolean;
+  errorType: OperationTypeEnum;
+  public operationTypeEnum = OperationTypeEnum;
 
   constructor(private formBuilder: FormBuilder, private userService: UserService) {
     this.form = this.formBuilder.group({
-      //name: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z]{1,30}[ ]?[a-zA-Z]{0,30}')]),
-      name: [null, [Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z]{1,30}[ ]?[a-zA-Z]{0,30}')]],
+      name: [null, [Validators.required, Validators.minLength(4), Validators.pattern('[a-zA-Z]{1,30}[ ]?[a-zA-Z]{0,30}')]],
       formDepartment: [null, [Validators.min(0)]]
-      /*formDepartment: this.formBuilder.group({
-        departmentControl: [null, [Validators.required, Validators.min(11)]]
-      })*/
     });
   }
 
@@ -36,6 +36,8 @@ export class UserDetailComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    this.errorType = null;
+    
     var nameValue = this.user == null ? '' : this.user.name;
     var departmentid = this.user == null ? -1 : this.user.departmentId;
     this.form.patchValue({
@@ -69,13 +71,19 @@ export class UserDetailComponent implements OnInit {
               formDepartment: -1
             });
           }
-        });
+        },
+          error => {
+            this.errorType = OperationTypeEnum.Add;
+          });
       }
       else {
         user = this.prepareUserToApi(user.id);
         this.userService.updateUser(user).subscribe(result => {
           this.updateUserListEvent.next(user);
-        });
+        },
+          error => {
+            this.errorType = OperationTypeEnum.Update;
+          });
       }
     }
   }
@@ -100,7 +108,10 @@ export class UserDetailComponent implements OnInit {
       this.userService.deleteUser(this.user.id).subscribe(result => {
         this.deleteUserListEvent.next(this.user.id);
         this.user = null;
-      });
+      },
+        error => {
+          this.errorType = OperationTypeEnum.Delete;
+        });
     }
   }
 }

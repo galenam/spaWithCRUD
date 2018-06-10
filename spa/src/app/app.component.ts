@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Galina';
+
+}
+
+export enum OperationTypeEnum {
+  Add = 0,
+  Update = 1,
+  Delete = 2
 }
